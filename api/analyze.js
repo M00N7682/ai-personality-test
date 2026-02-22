@@ -1,4 +1,4 @@
-const Anthropic = require('@anthropic-ai/sdk');
+const OpenAI = require('openai');
 
 const SYSTEM_PROMPT = `당신은 AI 성격 분석 토론회의 진행자입니다. 3명의 AI 캐릭터가 사용자의 에세이를 분석하고 토론하는 대사를 생성합니다.
 
@@ -126,7 +126,7 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ success: false, error: 'Method not allowed' });
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     return res.status(500).json({ success: false, error: 'API key not configured' });
   }
@@ -138,7 +138,7 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ success: false, error: 'Missing required fields' });
     }
 
-    const client = new Anthropic({ apiKey });
+    const client = new OpenAI({ apiKey });
 
     const userPrompt = buildUserPrompt({
       userName,
@@ -148,21 +148,22 @@ module.exports = async function handler(req, res) {
       deepPatterns
     });
 
-    const message = await client.messages.create({
-      model: 'claude-3-5-haiku-20241022',
+    const completion = await client.chat.completions.create({
+      model: 'gpt-5-mini',
       max_tokens: 2000,
-      system: SYSTEM_PROMPT,
+      temperature: 0.8,
+      response_format: { type: 'json_object' },
       messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: userPrompt }
       ]
     });
 
-    const responseText = message.content[0].text.trim();
+    const responseText = completion.choices[0].message.content.trim();
 
-    // JSON 파싱 시도
+    // JSON 파싱
     let dialogue;
     try {
-      // JSON 블록이 ```json ... ``` 으로 감싸져 있을 수 있음
       const jsonMatch = responseText.match(/\{[\s\S]*\}/);
       if (!jsonMatch) {
         throw new Error('No JSON found in response');
@@ -178,7 +179,6 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({ success: false, error: 'Invalid dialogue format' });
     }
 
-    // 각 줄에 필수 필드 확인
     for (const line of dialogue.lines) {
       if (!line.ai || !line.text) {
         return res.status(500).json({ success: false, error: 'Invalid line format' });
