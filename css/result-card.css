@@ -1,0 +1,208 @@
+/* ========== Result Card (SNS 공유용) ========== */
+.result-card {
+  width: 100%;
+  max-width: 360px;
+  background: linear-gradient(180deg, #12121c 0%, #1a1a2e 100%);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(124, 92, 252, 0.2);
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.result-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--chatgpt-color), var(--gemini-color), var(--claude-color));
+}
+
+/* Header */
+.result-card-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.result-card-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.result-card-name {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Comparison */
+.result-comparison {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.result-self,
+.result-ai {
+  flex: 1;
+  text-align: center;
+  padding: 16px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.result-ai {
+  background: rgba(124, 92, 252, 0.08);
+  border-color: rgba(124, 92, 252, 0.2);
+}
+
+.comp-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.comp-emoji {
+  font-size: 36px;
+  margin-bottom: 6px;
+}
+
+.comp-type {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.comp-arrow {
+  font-size: 20px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* Quote */
+.result-quote {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  padding: 16px;
+  background: rgba(124, 92, 252, 0.06);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--accent);
+  margin-bottom: 20px;
+}
+
+/* DNA Chart */
+.result-dna {
+  margin-bottom: 20px;
+}
+
+.dna-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.dna-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dna-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dna-label {
+  font-size: 13px;
+  font-weight: 600;
+  width: 48px;
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+
+.dna-bar {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dna-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  width: 0%;
+}
+
+.dna-bar-fill.bar-1 { background: linear-gradient(90deg, #7c5cfc, #9b7dff); }
+.dna-bar-fill.bar-2 { background: linear-gradient(90deg, #10A37F, #4ade80); }
+.dna-bar-fill.bar-3 { background: linear-gradient(90deg, #4285F4, #60a5fa); }
+
+.dna-value {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  width: 36px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Footer */
+.result-card-footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  letter-spacing: 1px;
+}
+
+/* ========== 캡쳐용 숨겨진 카드 (html2canvas) ========== */
+.capture-card {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  width: 1080px;
+  padding: 80px 72px;
+  background: linear-gradient(180deg, #0a0a14 0%, #14142a 100%);
+  z-index: -1;
+}
+
+.capture-card .result-card {
+  max-width: 100%;
+  padding: 60px 56px;
+  border-radius: 40px;
+}
+
+.capture-card .result-card-label { font-size: 24px; }
+.capture-card .result-card-name { font-size: 36px; }
+.capture-card .comp-emoji { font-size: 72px; }
+.capture-card .comp-type { font-size: 28px; }
+.capture-card .comp-label { font-size: 20px; }
+.capture-card .result-quote { font-size: 28px; padding: 32px; }
+.capture-card .dna-title { font-size: 24px; }
+.capture-card .dna-label { font-size: 24px; width: 96px; }
+.capture-card .dna-bar { height: 16px; }
+.capture-card .dna-value { font-size: 22px; width: 64px; }
+.capture-card .dna-row { gap: 16px; }
+.capture-card .dna-bars { gap: 20px; }
+.capture-card .result-card-footer { font-size: 20px; padding-top: 32px; }
+.capture-card .result-comparison { gap: 24px; margin-bottom: 40px; }
+.capture-card .result-self,
+.capture-card .result-ai { padding: 32px 24px; }
+.capture-card .result-quote { margin-bottom: 40px; }
+.capture-card .result-dna { margin-bottom: 40px; }
+.capture-card .comp-arrow { font-size: 36px; }

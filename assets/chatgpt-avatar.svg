@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <circle cx="24" cy="24" r="22" fill="#10A37F" opacity="0.15"/>
+  <path d="M24 8C15.16 8 8 15.16 8 24s7.16 16 16 16 16-7.16 16-16S32.84 8 24 8zm0 4c2.4 0 4.36 1.96 4.36 4.36S26.4 20.72 24 20.72s-4.36-1.96-4.36-4.36S21.6 12 24 12zm8 19.6c0 .88-.72 1.6-1.6 1.6H17.6c-.88 0-1.6-.72-1.6-1.6v-1.2c0-3.2 5.2-4.96 8-4.96s8 1.76 8 4.96v1.2z" fill="#10A37F"/>
+  <text x="24" y="28" text-anchor="middle" font-size="14" font-weight="bold" fill="#10A37F" font-family="sans-serif">G</text>
+</svg>

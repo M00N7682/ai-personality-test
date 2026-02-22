@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AI 토론회: 당신의 성격은?</title>
+
+  <!-- OG Tags -->
+  <meta property="og:title" content="AI 토론회: 나의 성격 분석">
+  <meta property="og:description" content="ChatGPT, Gemini, Claude가 토론해서 알려주는 나의 진짜 성격">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://ai-personality-test.kr/assets/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI 토론회: 나의 성격 분석">
+  <meta name="twitter:description" content="ChatGPT, Gemini, Claude가 토론해서 알려주는 나의 진짜 성격">
+
+  <!-- Pretendard Font -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/result-card.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- Screen 1: 시작 화면 -->
+    <section id="screen-start" class="screen active">
+      <div class="screen-content start-content">
+        <div class="logo-area">
+          <div class="ai-avatars-row">
+            <div class="ai-avatar-badge chatgpt-badge">
+              <img src="assets/chatgpt-avatar.svg" alt="ChatGPT">
+            </div>
+            <div class="ai-avatar-badge gemini-badge">
+              <img src="assets/gemini-avatar.svg" alt="Gemini">
+            </div>
+            <div class="ai-avatar-badge claude-badge">
+              <img src="assets/claude-avatar.svg" alt="Claude">
+            </div>
+          </div>
+          <h1 class="main-title">AI 토론회</h1>
+          <p class="sub-title">당신의 성격은?</p>
+        </div>
+        <p class="description">
+          ChatGPT, Gemini, Claude가<br>
+          당신의 글을 읽고 <strong>토론</strong>합니다.
+        </p>
+        <p class="description-small">
+          AI 3인방이 밝혀내는 당신의 진짜 성격
+        </p>
+        <button class="btn-primary" id="btn-start">시작하기</button>
+        <p class="footer-note">30초면 끝! 비용 0원</p>
+      </div>
+    </section>
+
+    <!-- Screen 2: 이름 입력 -->
+    <section id="screen-name" class="screen">
+      <div class="screen-content">
+        <div class="step-indicator">
+          <div class="step-dot active"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+        </div>
+        <h2 class="screen-title">AI들이 부를<br>이름을 알려주세요</h2>
+        <p class="screen-desc">결과 카드에 표시됩니다</p>
+        <div class="input-wrap">
+          <input type="text" id="input-name" class="text-input" placeholder="이름 또는 닉네임" maxlength="10" autocomplete="off">
+          <span class="char-count"><span id="name-count">0</span>/10</span>
+        </div>
+        <button class="btn-primary" id="btn-name-next" disabled>다음</button>
+      </div>
+    </section>
+
+    <!-- Screen 3: 셀프 체크 (객관식) -->
+    <section id="screen-selfcheck" class="screen">
+      <div class="screen-content">
+        <div class="step-indicator">
+          <div class="step-dot done"></div>
+          <div class="step-dot active"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+        </div>
+        <p class="question-progress" id="selfcheck-progress">1 / 3</p>
+        <h2 class="screen-title" id="selfcheck-question"></h2>
+        <div class="options-list" id="selfcheck-options"></div>
+      </div>
+    </section>
+
+    <!-- Screen 4: 주관식 질문 -->
+    <section id="screen-essay" class="screen">
+      <div class="screen-content">
+        <div class="step-indicator">
+          <div class="step-dot done"></div>
+          <div class="step-dot done"></div>
+          <div class="step-dot active"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+        </div>
+        <p class="question-progress" id="essay-progress">1 / 3</p>
+        <h2 class="screen-title" id="essay-question"></h2>
+        <div class="textarea-wrap">
+          <textarea id="essay-input" class="text-area" placeholder="자유롭게 적어주세요..." maxlength="500" rows="5"></textarea>
+          <div class="textarea-footer">
+            <span class="char-status" id="essay-char-status">최소 100자</span>
+            <span class="char-count"><span id="essay-count">0</span>/500</span>
+          </div>
+        </div>
+        <button class="btn-primary" id="btn-essay-next" disabled>다음</button>
+      </div>
+    </section>
+
+    <!-- Screen 5: 분석 중 (로딩 연출) -->
+    <section id="screen-loading" class="screen">
+      <div class="screen-content loading-content">
+        <div class="loading-spinner">
+          <div class="spinner-ring"></div>
+        </div>
+        <p class="loading-text" id="loading-text">AI들이 당신의 글을 읽고 있습니다...</p>
+        <div class="loading-progress">
+          <div class="loading-bar" id="loading-bar"></div>
+        </div>
+        <div class="loading-agents">
+          <div class="agent-status" id="agent-chatgpt">
+            <img src="assets/chatgpt-avatar.svg" alt="" class="agent-icon">
+            <span>ChatGPT</span>
+            <span class="agent-state" id="state-chatgpt">대기중</span>
+          </div>
+          <div class="agent-status" id="agent-gemini">
+            <img src="assets/gemini-avatar.svg" alt="" class="agent-icon">
+            <span>Gemini</span>
+            <span class="agent-state" id="state-gemini">대기중</span>
+          </div>
+          <div class="agent-status" id="agent-claude">
+            <img src="assets/claude-avatar.svg" alt="" class="agent-icon">
+            <span>Claude</span>
+            <span class="agent-state" id="state-claude">대기중</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screen 6: AI 토론 결과 (채팅 형식) -->
+    <section id="screen-debate" class="screen">
+      <div class="screen-content debate-content">
+        <div class="debate-header">
+          <h2>AI 토론 결과</h2>
+          <p class="debate-sub" id="debate-sub"></p>
+        </div>
+        <div class="chat-container" id="chat-container"></div>
+        <div class="debate-footer" id="debate-footer" style="display:none;">
+          <button class="btn-primary" id="btn-show-result">최종 결과 보기</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screen 7: 최종 결과 카드 -->
+    <section id="screen-result" class="screen">
+      <div class="screen-content result-content">
+        <!-- 결과 카드 (캡쳐용 + 표시용) -->
+        <div class="result-card" id="result-card">
+          <div class="result-card-header" data-tier="free">
+            <p class="result-card-label">AI 토론회</p>
+            <p class="result-card-name"><span id="result-name"></span>님의 성격 분석</p>
+          </div>
+
+          <div class="result-comparison" data-tier="free">
+            <div class="result-self">
+              <p class="comp-label">내가 보는 나</p>
+              <p class="comp-emoji" id="self-emoji"></p>
+              <p class="comp-type" id="self-type"></p>
+            </div>
+            <div class="comp-arrow">→</div>
+            <div class="result-ai">
+              <p class="comp-label">AI가 본 진짜 나</p>
+              <p class="comp-emoji" id="ai-emoji"></p>
+              <p class="comp-type" id="ai-type"></p>
+            </div>
+          </div>
+
+          <div class="result-quote" id="result-quote" data-tier="free"></div>
+
+          <div class="result-dna" data-tier="free">
+            <p class="dna-title">감정 DNA</p>
+            <div class="dna-bars" id="dna-bars"></div>
+          </div>
+
+          <div class="result-card-footer">
+            ai-personality-test.kr
+          </div>
+        </div>
+
+        <!-- 공유 버튼 영역 -->
+        <div class="share-area">
+          <button class="share-btn kakao-btn" id="btn-share-kakao">
+            <span class="share-icon">💬</span> 카카오톡 공유
+          </button>
+          <button class="share-btn twitter-btn" id="btn-share-twitter">
+            <span class="share-icon">🐦</span> 트위터 공유
+          </button>
+          <button class="share-btn download-btn" id="btn-download">
+            <span class="share-icon">📷</span> 이미지 저장
+          </button>
+          <button class="share-btn link-btn" id="btn-copy-link">
+            <span class="share-icon">🔗</span> 링크 복사
+          </button>
+        </div>
+
+        <button class="btn-secondary" id="btn-retry">다시 하기</button>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- html2canvas CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- App Scripts -->
+  <script src="js/keywords.js"></script>
+  <script src="js/questions.js"></script>
+  <script src="js/analyzer.js"></script>
+  <script src="js/dialogues.js"></script>
+  <script src="js/animation.js"></script>
+  <script src="js/result-card.js"></script>
+  <script src="js/share.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

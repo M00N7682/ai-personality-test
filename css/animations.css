@@ -1,0 +1,150 @@
+/* ========== Screen Transitions ========== */
+.screen {
+  animation: none;
+}
+
+.screen.fade-in {
+  animation: fadeSlideIn 0.4s ease forwards;
+}
+
+.screen.fade-out {
+  animation: fadeSlideOut 0.3s ease forwards;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+}
+
+/* ========== Option Card Tap ========== */
+.option-card {
+  transition: all 0.2s ease, transform 0.1s ease;
+}
+
+.option-card:active {
+  transform: scale(0.97);
+}
+
+/* ========== Button Pulse (Start) ========== */
+.btn-primary.pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(124, 92, 252, 0.4); }
+  70% { box-shadow: 0 0 0 12px rgba(124, 92, 252, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(124, 92, 252, 0); }
+}
+
+/* ========== Stagger Children ========== */
+.stagger-in > * {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: staggerItem 0.4s ease forwards;
+}
+
+.stagger-in > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-in > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-in > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-in > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-in > *:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes staggerItem {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== Chat Message Entrance ========== */
+.chat-message {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* ========== Conclusion Card ========== */
+.chat-conclusion {
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* ========== Result Card Entrance ========== */
+.result-card {
+  animation: resultSlideUp 0.6s ease forwards;
+}
+
+@keyframes resultSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ========== DNA Bar Animation ========== */
+.dna-bar-fill {
+  transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ========== Avatar Float ========== */
+.ai-avatar-badge {
+  animation: float 3s ease-in-out infinite;
+}
+
+.ai-avatar-badge:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.ai-avatar-badge:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ========== Loading Text Transition ========== */
+.loading-text {
+  transition: opacity 0.4s ease;
+}
+
+.loading-text.switching {
+  opacity: 0;
+}
+
+/* ========== Share Button Pop ========== */
+.share-area {
+  animation: sharePopIn 0.5s ease forwards;
+  animation-delay: 0.3s;
+  opacity: 0;
+}
+
+@keyframes sharePopIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
