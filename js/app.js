@@ -244,10 +244,13 @@ const App = {
 
     let step = 0;
     const totalSteps = messages.length;
+    let llmDone = false;
+
+    // LLM 완료 감지
+    this.llmPromise.then(() => { llmDone = true; }).catch(() => { llmDone = true; });
 
     const advance = () => {
       if (step >= totalSteps) {
-        // 로딩 완료 → 결과 처리
         this._runAnalysis();
         return;
       }
@@ -288,7 +291,9 @@ const App = {
       }
 
       step++;
-      setTimeout(advance, 2000);
+      // LLM 이미 완료됐으면 빠르게, 아니면 기본 속도
+      const delay = (step >= 3 && llmDone) ? 600 : 1200;
+      setTimeout(advance, delay);
     };
 
     advance();
@@ -328,13 +333,13 @@ const App = {
   async _runAnalysis() {
     // analysisResult는 이미 _startAnalysis()에서 계산됨
 
-    // LLM Promise 확인 (최대 2초 추가 대기)
+    // LLM Promise 확인 (로딩 중 이미 충분히 기다렸으므로 500ms만 추가 대기)
     let llmDialogue = null;
     if (this.llmPromise) {
       try {
         llmDialogue = await Promise.race([
           this.llmPromise,
-          new Promise(resolve => setTimeout(() => resolve(null), 2000))
+          new Promise(resolve => setTimeout(() => resolve(null), 500))
         ]);
       } catch (err) {
         console.warn('LLM fallback:', err.message);
