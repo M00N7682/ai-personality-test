@@ -150,8 +150,7 @@ module.exports = async function handler(req, res) {
 
     const completion = await client.chat.completions.create({
       model: 'gpt-5-mini',
-      max_tokens: 2000,
-      temperature: 0.8,
+      max_completion_tokens: 4000,
       response_format: { type: 'json_object' },
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
@@ -159,7 +158,11 @@ module.exports = async function handler(req, res) {
       ]
     });
 
-    const responseText = completion.choices[0].message.content.trim();
+    const responseText = (completion.choices[0].message.content || '').trim();
+
+    if (!responseText) {
+      return res.status(500).json({ success: false, error: 'Empty LLM response, finish_reason: ' + completion.choices[0].finish_reason });
+    }
 
     // JSON 파싱
     let dialogue;
@@ -171,7 +174,7 @@ module.exports = async function handler(req, res) {
       dialogue = JSON.parse(jsonMatch[0]);
     } catch (parseErr) {
       console.error('JSON parse error:', parseErr.message, 'Response:', responseText.slice(0, 200));
-      return res.status(500).json({ success: false, error: 'Invalid LLM response format' });
+      return res.status(500).json({ success: false, error: 'Parse error: ' + parseErr.message + ' | Response: ' + responseText.slice(0, 100) });
     }
 
     // 형식 검증

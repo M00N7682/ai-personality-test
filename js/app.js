@@ -249,9 +249,30 @@ const App = {
     // LLM 완료 감지
     this.llmPromise.then(() => { llmDone = true; }).catch(() => { llmDone = true; });
 
+    // LLM 대기 중 순환 메시지
+    const waitingMessages = [
+      'AI들이 깊이 분석하고 있습니다...',
+      '거의 다 왔습니다, 조금만 기다려주세요...',
+      '맞춤형 분석을 생성하고 있습니다...',
+      'AI 토론이 진행중입니다...'
+    ];
+    let waitIdx = 0;
+
     const advance = () => {
       if (step >= totalSteps) {
-        this._runAnalysis();
+        // 기본 애니메이션 완료, LLM 대기 시작
+        if (llmDone) {
+          this._runAnalysis();
+          return;
+        }
+        // LLM 아직 안 끝남 → 대기 메시지 순환
+        loadingText.classList.add('switching');
+        setTimeout(() => {
+          loadingText.textContent = waitingMessages[waitIdx % waitingMessages.length];
+          loadingText.classList.remove('switching');
+          waitIdx++;
+        }, 300);
+        setTimeout(advance, 3000);
         return;
       }
 
@@ -333,13 +354,13 @@ const App = {
   async _runAnalysis() {
     // analysisResult는 이미 _startAnalysis()에서 계산됨
 
-    // LLM Promise 확인 (로딩 중 이미 충분히 기다렸으므로 500ms만 추가 대기)
+    // LLM Promise 확인 (GPT-5-mini는 30~50초 걸릴 수 있으므로 충분히 대기)
     let llmDialogue = null;
     if (this.llmPromise) {
       try {
         llmDialogue = await Promise.race([
           this.llmPromise,
-          new Promise(resolve => setTimeout(() => resolve(null), 500))
+          new Promise(resolve => setTimeout(() => resolve(null), 55000))
         ]);
       } catch (err) {
         console.warn('LLM fallback:', err.message);
