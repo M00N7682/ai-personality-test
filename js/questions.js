@@ -31,6 +31,56 @@ const SELFCHECK_QUESTIONS = [
       { label: '몸을 움직이거나 뭔가 하면서 해결', value: 'action', axis: 'energy', score: 30 },
       { label: '일단 잊으려고 딴 걸 함', value: 'avoid', axis: 'energy', score: -10 }
     ]
+  },
+  {
+    id: 'decision',
+    question: '중요한 결정을 내릴 때?',
+    options: [
+      { label: '장단점을 꼼꼼히 비교하고 결정', value: 'analyze', axis: 'thinking', score: 60 },
+      { label: '직감이 이끄는 대로 결정', value: 'intuition', axis: 'thinking', score: -60 },
+      { label: '주변 사람들 의견을 많이 들어봄', value: 'consult', axis: 'energy', score: 40 },
+      { label: '일단 해보고 아니면 바꿈', value: 'trial', axis: 'thinking', score: -20 }
+    ]
+  },
+  {
+    id: 'conflict',
+    question: '친구와 의견이 다를 때?',
+    options: [
+      { label: '내 논리를 설명해서 설득하려 함', value: 'persuade', axis: 'thinking', score: 50 },
+      { label: '상대 기분을 먼저 살핌', value: 'empathy', axis: 'thinking', score: -50 },
+      { label: '일단 맞춰주고 나중에 생각', value: 'yield', axis: 'thinking', score: -30 },
+      { label: '각자 다를 수 있다고 넘김', value: 'accept', axis: 'energy', score: -20 }
+    ]
+  },
+  {
+    id: 'weekend',
+    question: '이상적인 주말은?',
+    options: [
+      { label: '친구들이랑 맛집, 카페 투어', value: 'social', axis: 'energy', score: 70 },
+      { label: '혼자 넷플릭스 or 게임 몰입', value: 'solo', axis: 'energy', score: -70 },
+      { label: '소수 친한 친구랑 조용히', value: 'small', axis: 'energy', score: -20 },
+      { label: '새로운 경험이나 장소 탐험', value: 'explore', axis: 'energy', score: 50 }
+    ]
+  },
+  {
+    id: 'compliment',
+    question: '칭찬받을 때 가장 기분 좋은 말?',
+    options: [
+      { label: '"진짜 똑똑하다"', value: 'smart', axis: 'thinking', score: 40 },
+      { label: '"같이 있으면 편해"', value: 'comfort', axis: 'thinking', score: -40 },
+      { label: '"넌 진짜 재밌어"', value: 'fun', axis: 'energy', score: 50 },
+      { label: '"넌 믿을 수 있어"', value: 'trust', axis: 'thinking', score: 20 }
+    ]
+  },
+  {
+    id: 'anger',
+    question: '화가 나면 어떤 편이에요?',
+    options: [
+      { label: '속으로 삭이다가 정리되면 말함', value: 'suppress', axis: 'energy', score: -50 },
+      { label: '바로 표현하는 편', value: 'express', axis: 'energy', score: 60 },
+      { label: '논리적으로 왜 화났는지 설명', value: 'logic', axis: 'thinking', score: 50 },
+      { label: '일단 그 자리를 피함', value: 'escape', axis: 'energy', score: -40 }
+    ]
   }
 ];
 

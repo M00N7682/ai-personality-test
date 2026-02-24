@@ -59,12 +59,12 @@ const App = {
       const status = document.getElementById('essay-char-status');
       const btn = document.getElementById('btn-essay-next');
 
-      if (len >= 100) {
+      if (len >= 20) {
         status.textContent = '좋아요!';
         status.classList.add('met');
         btn.disabled = false;
       } else {
-        status.textContent = `최소 100자 (${100 - len}자 남음)`;
+        status.textContent = `최소 20자 (${20 - len}자 남음)`;
         status.classList.remove('met');
         btn.disabled = true;
       }
