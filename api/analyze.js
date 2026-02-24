@@ -188,7 +188,7 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ success: true, dialogue });
 
   } catch (err) {
-    console.error('API error:', err.message);
-    return res.status(500).json({ success: false, error: 'LLM request failed' });
+    console.error('API error:', err.message, err.stack);
+    return res.status(500).json({ success: false, error: 'LLM request failed: ' + err.message });
   }
 };
