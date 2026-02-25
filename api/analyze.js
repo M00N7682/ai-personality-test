@@ -46,68 +46,49 @@ const SYSTEM_PROMPT = `당신은 AI 성격 분석 토론회의 진행자입니�
 6. JSON 외의 텍스트 출력 금지`;
 
 function buildUserPrompt(data) {
-  const { userName, essayTexts, essayQuestions, analysisResult, deepPatterns } = data;
+  const { userName, essayTexts, essayQuestions, analysisResult, selfCheckAnswers, deepPatterns } = data;
 
   const typeInfo = analysisResult.typeInfo;
   const selfTypeInfo = analysisResult.selfTypeInfo;
   const gapLevel = analysisResult.gapLevel;
   const dp = deepPatterns || {};
 
-  let prompt = `## 사용자 정보
-- 이름: ${userName}
-- 셀프 진단 유형: ${selfTypeInfo.name} ${selfTypeInfo.emoji} (본인이 생각하는 자기 유형)
-- AI 분석 유형: ${typeInfo.name} ${typeInfo.emoji} (에세이 분석 결과)
-- 갭 레벨: ${gapLevel} (match=일치, slight=약간 다름, big=크게 다름)
+  let prompt = `## 사용자: ${userName}
+- 셀프 진단: ${selfTypeInfo.name} ${selfTypeInfo.emoji}
+- AI 분석 결과: ${typeInfo.name} ${typeInfo.emoji} — ${typeInfo.desc}
+- 갭: ${gapLevel} (match=일치, slight=약간 다름, big=크게 다름)
 
-## 분석 데이터
-- 사고축 점수: ${analysisResult.thinkingScore} (양수=논리적, 음수=감성적)
-- 에너지축 점수: ${analysisResult.energyScore} (양수=외향적, 음수=내향적)
-- 대표 키워드: ${analysisResult.mainKeyword}
-- 상위 키워드: ${(analysisResult.topKeywords || []).join(', ')}
-- 감정 DNA: ${(analysisResult.dna || []).map(d => `${d.name}(${d.score}%)`).join(', ')}
+## 객관식 응답 (핵심 데이터)
+- 사고축: ${analysisResult.thinkingScore} (양수=논리, 음수=감성)
+- 에너지축: ${analysisResult.energyScore} (양수=외향, 음수=내향)
+- 감정 DNA: ${(analysisResult.dna || []).map(d => `${d.name} ${d.score}%`).join(', ')}
+- 키워드: ${(analysisResult.topKeywords || []).join(', ')}
 `;
 
-  if (dp) {
-    prompt += `
-## 딥 패턴
-- 전체 글자수: ${dp.charCount || 0}자
-- 문장수: ${dp.sentenceCount || 0}개
-- 평균 문장 길이: ${dp.avgSentenceLength || 0}자
-- 감정단어: ${dp.emotionCount || 0}개, 논리단어: ${dp.logicCount || 0}개
-- 자기 언급 비율: ${dp.selfMentionRatio || 0}%
-- 타인 언급 비율: ${dp.otherMentionRatio || 0}%
-- 어휘 다양성: ${dp.vocabularyDiversity || 0}%
-- 말줄임표: ${dp.ellipsisCount || 0}개, 물음표: ${dp.questionCount || 0}개
-- 에세이 길이 추이: ${dp.lengthTrend || 'stable'}
-`;
-    if (dp.topQuotes && dp.topQuotes.length > 0) {
-      prompt += `- 대표 문장: "${dp.topQuotes.join('", "')}"
-`;
+  // 셀프체크 개별 응답 포함
+  if (selfCheckAnswers) {
+    prompt += `\n## 셀프체크 선택지\n`;
+    for (const [qId, answer] of Object.entries(selfCheckAnswers)) {
+      prompt += `- ${qId}: ${answer}\n`;
     }
   }
 
-  prompt += `
-## 에세이 전문
-`;
-  if (essayQuestions && essayTexts) {
-    essayTexts.forEach((text, i) => {
-      const q = essayQuestions[i] || {};
-      prompt += `
-### 질문 ${i + 1}: ${q.question || ''}
-${text}
-`;
-    });
+  // 에세이는 대표 문장만 (전문 제거로 토큰 절약)
+  if (dp && dp.topQuotes && dp.topQuotes.length > 0) {
+    prompt += `\n## 대표 문장 (에세이에서 추출)\n`;
+    dp.topQuotes.forEach((q, i) => { prompt += `${i + 1}. "${q}"\n`; });
+  }
+
+  // 문체 특징 요약 (숫자 데이터만)
+  if (dp) {
+    prompt += `\n## 문체 요약: ${dp.charCount || 0}자, ${dp.sentenceCount || 0}문장, 감정어 ${dp.emotionCount || 0}개, 논리어 ${dp.logicCount || 0}개\n`;
   }
 
   prompt += `
-## 유형 설명
-${typeInfo.name}: ${typeInfo.desc}
-
 ## 지시
-위 데이터를 바탕으로, 3 AI 캐릭터가 이 사용자의 성격을 토론하는 대사를 생성하세요.
-- 갭 레벨이 '${gapLevel}'이므로 ${gapLevel === 'match' ? '셀프 진단과 일치한다는 점을 칭찬하며 분석' : gapLevel === 'slight' ? '약간의 불일치를 흥미롭게 짚으며 분석' : '큰 반전을 드라마틱하게 전달하며 분석'}하세요.
-- 반드시 사용자의 실제 글에서 구체적 표현을 인용하세요 (예: "글에서 '...'라고 쓰셨는데").
-- 유형 설명의 핵심을 대사에 자연스럽게 녹이세요.`;
+객관식 응답 데이터와 대표 문장을 근거로 토론하세요.
+- 갭이 '${gapLevel}'이므로 ${gapLevel === 'match' ? '일치를 칭찬하며' : gapLevel === 'slight' ? '약간의 불일치를 흥미롭게 짚으며' : '큰 반전을 드라마틱하게'} 분석.
+- 대표 문장을 인용하되, 객관식 점수/선택지를 주요 근거로 사용하세요.`;
 
   return prompt;
 }
@@ -132,9 +113,9 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { userName, essayTexts, essayQuestions, analysisResult, deepPatterns } = req.body;
+    const { userName, selfCheckAnswers, essayTexts, essayQuestions, analysisResult, deepPatterns } = req.body;
 
-    if (!userName || !essayTexts || !analysisResult) {
+    if (!userName || !analysisResult) {
       return res.status(400).json({ success: false, error: 'Missing required fields' });
     }
 
@@ -142,6 +123,7 @@ module.exports = async function handler(req, res) {
 
     const userPrompt = buildUserPrompt({
       userName,
+      selfCheckAnswers,
       essayTexts,
       essayQuestions,
       analysisResult,

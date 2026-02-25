@@ -85,6 +85,13 @@ const App = {
     document.getElementById('btn-download').addEventListener('click', () => Share.downloadImage());
     document.getElementById('btn-copy-link').addEventListener('click', () => Share.copyLink());
 
+    // 토론 다시보기
+    document.getElementById('btn-review-debate').addEventListener('click', () => {
+      // 토론 화면으로 전환 (채팅 히스토리 유지, 결과 버튼 표시)
+      document.getElementById('debate-footer').style.display = 'block';
+      this._goToScreen('screen-debate');
+    });
+
     // 다시하기
     document.getElementById('btn-retry').addEventListener('click', () => {
       this._reset();
@@ -329,6 +336,7 @@ const App = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         userName: this.userName,
+        selfCheckAnswers: this.selfCheckAnswers,
         essayTexts: this.essayTexts,
         essayQuestions: ESSAY_QUESTIONS.map(q => ({ question: q.question })),
         analysisResult: this.analysisResult,
