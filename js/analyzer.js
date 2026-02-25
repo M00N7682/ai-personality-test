@@ -310,50 +310,57 @@ function extractDeepPatterns(essayTexts, kwResult) {
  * 키워드 밀도 높은 20~80자 대표 문장 3개 선별
  */
 function _selectTopQuotes(sentences, kwResult) {
-  // 모든 키워드 목록 만들기
-  const allKeywords = [];
-  for (const cat of Object.values(KEYWORDS)) {
-    for (const subcat of Object.values(cat)) {
-      if (Array.isArray(subcat)) {
-        allKeywords.push(...subcat);
-      }
-    }
-  }
-
-  // 문장별 키워드 밀도 계산 (20~80자 필터)
+  // 개성 있는 문장 선별: 키워드 밀도보다 "그 사람다운" 표현에 가중치
   const scored = sentences
-    .filter(s => s.length >= 20 && s.length <= 80)
+    .filter(s => s.length >= 12)
     .map(s => {
-      let density = 0;
-      for (const kw of allKeywords) {
-        if (s.includes(kw)) density++;
-      }
-      return { text: s, density };
-    })
-    .sort((a, b) => b.density - a.density);
+      let score = 0;
 
-  // 상위 3개, 중복 방지 (너무 비슷한 문장 제외)
+      // 1인칭 표현 (나를 드러내는 문장)
+      if (/나는|저는|내가|나를|나한테/.test(s)) score += 3;
+
+      // 비유/감정 표현 (개성이 드러남)
+      if (/같은|처럼|느낌|것 같/.test(s)) score += 2;
+
+      // 구어체/솔직한 표현 (자연스러움)
+      if (/거든요|잖아|편이|하더라|싶어|좋아/.test(s)) score += 2;
+
+      // 구체적 상황 묘사
+      if (/때|순간|그때|최근|요즘/.test(s)) score += 1;
+
+      // 적당한 길이 보너스 (15~60자가 인용하기 좋음)
+      if (s.length >= 15 && s.length <= 60) score += 2;
+      else if (s.length <= 80) score += 1;
+
+      // 너무 짧으면 감점
+      if (s.length < 15) score -= 2;
+      // 너무 길면 잘라서 저장
+      const text = s.length > 70 ? s.slice(0, 67) + '...' : s;
+
+      return { text, score, original: s };
+    })
+    .sort((a, b) => b.score - a.score);
+
+  // 상위 3개, 중복 방지
   const selected = [];
   for (const item of scored) {
     if (selected.length >= 3) break;
     const isDuplicate = selected.some(s =>
       s.text.includes(item.text.slice(0, 10)) || item.text.includes(s.text.slice(0, 10))
     );
-    if (!isDuplicate) {
+    if (!isDuplicate && item.score > 0) {
       selected.push(item);
     }
   }
 
-  // 3개 미만이면 길이 제한 완화해서 추가
+  // 3개 미만이면 남은 문장에서 보충
   if (selected.length < 3) {
-    const fallback = sentences
-      .filter(s => s.length >= 10 && !selected.some(sel => sel.text === s))
-      .slice(0, 3 - selected.length)
-      .map(s => ({
-        text: s.length > 80 ? s.slice(0, 77) + '...' : s,
-        density: 0
-      }));
-    selected.push(...fallback);
+    for (const item of scored) {
+      if (selected.length >= 3) break;
+      if (!selected.some(s => s.text === item.text)) {
+        selected.push(item);
+      }
+    }
   }
 
   return selected.map(s => s.text);
