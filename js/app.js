@@ -19,7 +19,7 @@ const App = {
   init() {
     // Kakao SDK 초기화
     if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
-      Kakao.init('YOUR_KAKAO_JS_KEY'); // TODO: 카카오 개발자 앱 JavaScript 키로 교체
+      Kakao.init('cb962e3d93f14b48ecb6d1732593e02c');
     }
 
     this._bindEvents();
