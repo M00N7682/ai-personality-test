@@ -73,22 +73,19 @@ function buildUserPrompt(data) {
     }
   }
 
-  // 에세이는 대표 문장만 (전문 제거로 토큰 절약)
-  if (dp && dp.topQuotes && dp.topQuotes.length > 0) {
-    prompt += `\n## 대표 문장 (에세이에서 추출)\n`;
-    dp.topQuotes.forEach((q, i) => { prompt += `${i + 1}. "${q}"\n`; });
+  // 에세이 원문 (LLM이 직접 읽고 자연스럽게 인용)
+  if (essayQuestions && essayTexts) {
+    prompt += `\n## 주관식 답변\n`;
+    essayTexts.forEach((text, i) => {
+      const q = essayQuestions[i] || {};
+      prompt += `Q${i + 1}. ${q.question || ''}\n→ ${text}\n\n`;
+    });
   }
 
-  // 문체 특징 요약 (숫자 데이터만)
-  if (dp) {
-    prompt += `\n## 문체 요약: ${dp.charCount || 0}자, ${dp.sentenceCount || 0}문장, 감정어 ${dp.emotionCount || 0}개, 논리어 ${dp.logicCount || 0}개\n`;
-  }
-
-  prompt += `
-## 지시
-객관식 응답 데이터와 대표 문장을 근거로 토론하세요.
-- 갭이 '${gapLevel}'이므로 ${gapLevel === 'match' ? '일치를 칭찬하며' : gapLevel === 'slight' ? '약간의 불일치를 흥미롭게 짚으며' : '큰 반전을 드라마틱하게'} 분석.
-- 대표 문장을 인용하되, 객관식 점수/선택지를 주요 근거로 사용하세요.`;
+  prompt += `## 지시
+객관식 데이터 + 주관식 답변을 근거로 토론하세요.
+- 주관식에서 인상적인 표현을 자연스럽게 인용하세요.
+- 갭이 '${gapLevel}'이므로 ${gapLevel === 'match' ? '일치를 칭찬하며' : gapLevel === 'slight' ? '약간의 불일치를 흥미롭게 짚으며' : '큰 반전을 드라마틱하게'} 분석.`;
 
   return prompt;
 }
