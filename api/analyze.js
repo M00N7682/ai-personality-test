@@ -112,11 +112,52 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { userName, selfCheckAnswers, essayTexts, essayQuestions, analysisResult, deepPatterns } = req.body;
-
-    if (!userName || !analysisResult) {
-      return res.status(400).json({ success: false, error: 'Missing required fields' });
+    const body = req.body;
+    if (!body || typeof body !== 'object') {
+      return res.status(400).json({ success: false, error: 'Invalid request body' });
     }
+
+    const { userName, selfCheckAnswers, essayTexts, essayQuestions, analysisResult, deepPatterns } = body;
+
+    // --- 입력값 검증 ---
+
+    // userName: 문자열, 1~10자
+    if (!userName || typeof userName !== 'string' || userName.length > 10) {
+      return res.status(400).json({ success: false, error: 'Invalid userName' });
+    }
+
+    // analysisResult: 필수 필드 존재 여부
+    if (!analysisResult || typeof analysisResult !== 'object' ||
+        !analysisResult.typeInfo || !analysisResult.selfTypeInfo ||
+        typeof analysisResult.thinkingScore !== 'number' ||
+        typeof analysisResult.energyScore !== 'number') {
+      return res.status(400).json({ success: false, error: 'Invalid analysisResult' });
+    }
+
+    // essayTexts: 배열, 최대 3개, 각 항목 최대 500자
+    if (!Array.isArray(essayTexts) || essayTexts.length > 3) {
+      return res.status(400).json({ success: false, error: 'Invalid essayTexts' });
+    }
+    for (const text of essayTexts) {
+      if (typeof text !== 'string' || text.length > 600) {
+        return res.status(400).json({ success: false, error: 'Essay too long' });
+      }
+    }
+
+    // selfCheckAnswers: 객체, 최대 20개 키, 각 값 문자열 50자 이하
+    if (selfCheckAnswers && typeof selfCheckAnswers === 'object') {
+      const keys = Object.keys(selfCheckAnswers);
+      if (keys.length > 20) {
+        return res.status(400).json({ success: false, error: 'Too many selfcheck answers' });
+      }
+      for (const v of Object.values(selfCheckAnswers)) {
+        if (typeof v !== 'string' || v.length > 50) {
+          return res.status(400).json({ success: false, error: 'Invalid selfcheck value' });
+        }
+      }
+    }
+
+    // --- 검증 끝 ---
 
     const client = new OpenAI({ apiKey });
 
