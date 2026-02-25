@@ -17,6 +17,11 @@ const App = {
    * 앱 초기화
    */
   init() {
+    // Kakao SDK 초기화
+    if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
+      Kakao.init('YOUR_KAKAO_JS_KEY'); // TODO: 카카오 개발자 앱 JavaScript 키로 교체
+    }
+
     this._bindEvents();
     // 시작 버튼 펄스 효과
     document.getElementById('btn-start').classList.add('pulse');

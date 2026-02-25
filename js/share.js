@@ -7,7 +7,7 @@
  */
 
 const Share = {
-  siteUrl: 'https://ai-personality-test.kr',
+  siteUrl: 'https://ai-debate.ddstudio.co.kr',
   resultData: null,
 
   /**
