@@ -201,6 +201,54 @@
           </div>
         </div>
 
+        <!-- 유형 상세 설명 -->
+        <div class="result-detail-section">
+          <div class="detail-block">
+            <div class="detail-icon" id="detail-emoji"></div>
+            <h3 class="detail-title" id="detail-title"></h3>
+            <p class="detail-text" id="detail-text"></p>
+          </div>
+
+          <div class="detail-block funfact-block">
+            <p class="detail-label">재미있는 사실</p>
+            <p class="detail-text" id="funfact-text"></p>
+          </div>
+
+          <div class="detail-block warning-block">
+            <p class="detail-label">한마디 조언</p>
+            <p class="detail-text" id="warning-text"></p>
+          </div>
+
+          <div class="detail-block match-block">
+            <p class="detail-label">유형 궁합</p>
+            <div class="match-row">
+              <div class="match-item best-match">
+                <span class="match-tag best">찰떡궁합</span>
+                <span class="match-name" id="best-match"></span>
+              </div>
+              <div class="match-item worst-match">
+                <span class="match-tag worst">환장콤비</span>
+                <span class="match-name" id="worst-match"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 전체 유형 맵 -->
+        <div class="result-detail-section">
+          <div class="detail-block typemap-block">
+            <p class="detail-label">전체 성격 유형</p>
+            <p class="typemap-desc">당신의 위치를 확인해보세요</p>
+            <div class="typemap-row-label">외향 E</div>
+            <div class="typemap-grid" id="typemap-grid"></div>
+            <div class="typemap-row-label">내향 I</div>
+            <div class="typemap-bottom-axes">
+              <span class="axis-label">감성 F</span>
+              <span class="axis-label">논리 T</span>
+            </div>
+          </div>
+        </div>
+
         <!-- 공유 버튼 영역 -->
         <div class="share-area">
           <button class="share-btn kakao-btn" id="btn-share-kakao">

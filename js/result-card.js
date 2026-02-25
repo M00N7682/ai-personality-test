@@ -51,6 +51,73 @@ const ResultCard = {
         }, i * 200);
       });
     }, 500);
+
+    // 유형 상세 설명
+    document.getElementById('detail-emoji').textContent = typeInfo.emoji;
+    document.getElementById('detail-title').textContent = `${typeInfo.name} ${typeInfo.emoji}`;
+    document.getElementById('detail-text').textContent = typeInfo.detail;
+
+    // 재미있는 사실
+    document.getElementById('funfact-text').textContent = typeInfo.funFact;
+
+    // 조언
+    document.getElementById('warning-text').textContent = typeInfo.warning;
+
+    // 궁합
+    document.getElementById('best-match').textContent = typeInfo.bestMatch;
+    document.getElementById('worst-match').textContent = typeInfo.worstMatch;
+
+    // 전체 유형 맵
+    this._renderTypeMap(finalType);
+  },
+
+  /**
+   * 전체 유형 맵 렌더링
+   */
+  _renderTypeMap(currentType) {
+    const grid = document.getElementById('typemap-grid');
+    grid.innerHTML = '';
+
+    // 2x2 기본 매트릭스 + 서브타입 = 8개를 4열 2행으로 배치
+    // 상단: 외향(E) — FE, FE2, TE, TE2
+    // 하단: 내향(I) — FI, FI2, TI, TI2
+    const layout = [
+      ['FE', 'FE2', 'TE', 'TE2'],
+      ['FI', 'FI2', 'TI', 'TI2']
+    ];
+
+    // 4열 그리드로 변경
+    grid.style.gridTemplateColumns = '1fr 1fr 1fr 1fr';
+
+    layout.forEach(row => {
+      row.forEach(typeKey => {
+        const info = this._getTypeInfo(typeKey);
+        if (!info) return;
+
+        const cell = document.createElement('div');
+        cell.className = 'typemap-cell';
+        if (typeKey === currentType) {
+          cell.classList.add('current-type');
+        }
+        cell.innerHTML = `
+          <div class="typemap-emoji">${info.emoji}</div>
+          <div class="typemap-name">${info.name}</div>
+          <div class="typemap-you">YOU</div>
+        `;
+        grid.appendChild(cell);
+      });
+    });
+  },
+
+  /**
+   * TYPE_INFO 가져오기 (analyzer.js의 전역 변수 참조)
+   */
+  _getTypeInfo(typeKey) {
+    // TYPE_INFO는 analyzer.js에서 전역으로 선언됨
+    if (typeof TYPE_INFO !== 'undefined' && TYPE_INFO[typeKey]) {
+      return TYPE_INFO[typeKey];
+    }
+    return null;
   },
 
   /**
