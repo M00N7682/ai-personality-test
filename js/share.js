@@ -28,12 +28,13 @@ const Share = {
       return;
     }
 
-    const { typeInfo } = this.resultData;
+    const { typeInfo, mbtiCode, finalType } = this.resultData;
+    const code = mbtiCode || finalType || '';
     Kakao.Share.sendDefault({
       objectType: 'feed',
       content: {
         title: 'AI 토론회: 나의 성격 분석',
-        description: `${typeInfo.emoji} ${typeInfo.name} - ${typeInfo.desc}`,
+        description: `${typeInfo.emoji} ${code} ${typeInfo.name} - ${typeInfo.desc}`,
         imageUrl: this.siteUrl + '/assets/og-image.png',
         link: {
           mobileWebUrl: this.siteUrl,
@@ -56,8 +57,9 @@ const Share = {
    * 트위터 공유
    */
   shareTwitter() {
-    const { typeInfo } = this.resultData;
-    const text = `AI 3인방이 분석한 내 성격: ${typeInfo.emoji} ${typeInfo.name}\n${typeInfo.desc}\n\n너도 해봐!`;
+    const { typeInfo, mbtiCode, finalType } = this.resultData;
+    const code = mbtiCode || finalType || '';
+    const text = `AI 3인방이 분석한 내 성격: ${typeInfo.emoji} ${code} ${typeInfo.name}\n${typeInfo.desc}\n\n너도 해봐!`;
     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(this.siteUrl)}`;
     window.open(url, '_blank', 'width=600,height=400');
   },

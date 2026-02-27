@@ -94,6 +94,30 @@ const KEYWORDS = {
       '상상', '아이디어', '영감', '창의', '독특', '특별', '새로운',
       '다른', '신기', '궁금', '호기심', '탐구', '발견', '실험'
     ]
+  },
+
+  // ===== 감각어 (S/N축) =====
+  sensing: {
+    concrete: [
+      '정확히', '구체적', '숫자', '사실', '현실', '실제', '데이터', '경험',
+      '직접', '눈으로', '손으로', '만져', '확인', '증거', '세부', '디테일'
+    ],
+    abstract: [
+      '가능성', '상상', '미래', '패턴', '의미', '비유', '상징', '영감',
+      '직감', '아이디어', '혁신', '창조', '비전', '통찰', '본질', '철학'
+    ]
+  },
+
+  // ===== 판단어 (J/P축) =====
+  judging: {
+    structured: [
+      '계획', '일정', '정리', '체계', '순서', '규칙', '마감', '완료',
+      '준비', '목록', '단계', '기한', '약속', '루틴', '스케줄', '정해진'
+    ],
+    flexible: [
+      '즉흥', '자유', '유연', '적응', '변화', '느긋', '여유', '흘러가는',
+      '그때그때', '기분따라', '열린', '다양', '탐색', '자발적', '모험', '즐기'
+    ]
   }
 };
 
@@ -152,6 +176,10 @@ function extractKeywords(text, essayTexts) {
     logicCount: 0,
     socialExtrovert: 0,
     socialIntrovert: 0,
+    sensingCount: 0,
+    intuitionCount: 0,
+    judgingCount: 0,
+    perceivingCount: 0,
     totalMatched: 0,
     topKeywords: [],
     dna: { 호기심: 0, 따뜻함: 0, 열정: 0, 차분함: 0, 유머: 0, 감성: 0 },
@@ -209,6 +237,50 @@ function extractKeywords(text, essayTexts) {
       result.totalMatched++;
       matchedKeywords[kw] = (matchedKeywords[kw] || 0) + count;
       result.matchedDetails[kw] = { category: 'social.introvert', count };
+    }
+  }
+
+  // 감각어 매칭 (S/N축)
+  if (KEYWORDS.sensing) {
+    for (const kw of (KEYWORDS.sensing.concrete || [])) {
+      if (text.includes(kw)) {
+        const count = text.split(kw).length - 1;
+        result.sensingCount++;
+        result.totalMatched++;
+        matchedKeywords[kw] = (matchedKeywords[kw] || 0) + count;
+        result.matchedDetails[kw] = { category: 'sensing.concrete', count };
+      }
+    }
+    for (const kw of (KEYWORDS.sensing.abstract || [])) {
+      if (text.includes(kw)) {
+        const count = text.split(kw).length - 1;
+        result.intuitionCount++;
+        result.totalMatched++;
+        matchedKeywords[kw] = (matchedKeywords[kw] || 0) + count;
+        result.matchedDetails[kw] = { category: 'sensing.abstract', count };
+      }
+    }
+  }
+
+  // 판단어 매칭 (J/P축)
+  if (KEYWORDS.judging) {
+    for (const kw of (KEYWORDS.judging.structured || [])) {
+      if (text.includes(kw)) {
+        const count = text.split(kw).length - 1;
+        result.judgingCount++;
+        result.totalMatched++;
+        matchedKeywords[kw] = (matchedKeywords[kw] || 0) + count;
+        result.matchedDetails[kw] = { category: 'judging.structured', count };
+      }
+    }
+    for (const kw of (KEYWORDS.judging.flexible || [])) {
+      if (text.includes(kw)) {
+        const count = text.split(kw).length - 1;
+        result.perceivingCount++;
+        result.totalMatched++;
+        matchedKeywords[kw] = (matchedKeywords[kw] || 0) + count;
+        result.matchedDetails[kw] = { category: 'judging.flexible', count };
+      }
     }
   }
 

@@ -175,17 +175,23 @@
             <p class="result-card-name"><span id="result-name"></span>님의 성격 분석</p>
           </div>
 
+          <div class="mbti-badge-wrap">
+            <span class="mbti-badge" id="mbti-badge"></span>
+          </div>
+
           <div class="result-comparison" data-tier="free">
             <div class="result-self">
               <p class="comp-label">내가 보는 나</p>
               <p class="comp-emoji" id="self-emoji"></p>
               <p class="comp-type" id="self-type"></p>
+              <p class="comp-mbti" id="self-mbti"></p>
             </div>
             <div class="comp-arrow">→</div>
             <div class="result-ai">
               <p class="comp-label">AI가 본 진짜 나</p>
               <p class="comp-emoji" id="ai-emoji"></p>
               <p class="comp-type" id="ai-type"></p>
+              <p class="comp-mbti" id="ai-mbti"></p>
             </div>
           </div>
 
@@ -219,6 +225,26 @@
             <p class="detail-text" id="warning-text"></p>
           </div>
 
+          <div class="detail-block strengths-block">
+            <p class="detail-label">강점</p>
+            <ul class="trait-list" id="strengths-list"></ul>
+          </div>
+
+          <div class="detail-block weaknesses-block">
+            <p class="detail-label">약점</p>
+            <ul class="trait-list" id="weaknesses-list"></ul>
+          </div>
+
+          <div class="detail-block careers-block">
+            <p class="detail-label">어울리는 직업</p>
+            <div class="career-tags" id="career-tags"></div>
+          </div>
+
+          <div class="detail-block love-block">
+            <p class="detail-label">연애 스타일</p>
+            <p class="detail-text" id="love-text"></p>
+          </div>
+
           <div class="detail-block match-block">
             <p class="detail-label">유형 궁합</p>
             <div class="match-row">
@@ -237,15 +263,9 @@
         <!-- 전체 유형 맵 -->
         <div class="result-detail-section">
           <div class="detail-block typemap-block">
-            <p class="detail-label">전체 성격 유형</p>
-            <p class="typemap-desc">당신의 위치를 확인해보세요</p>
-            <div class="typemap-row-label">외향 E</div>
+            <p class="detail-label">전체 16유형</p>
+            <p class="typemap-desc">MBTI 16유형 중 나의 위치</p>
             <div class="typemap-grid" id="typemap-grid"></div>
-            <div class="typemap-row-label">내향 I</div>
-            <div class="typemap-bottom-axes">
-              <span class="axis-label">감성 F</span>
-              <span class="axis-label">논리 T</span>
-            </div>
           </div>
         </div>
 

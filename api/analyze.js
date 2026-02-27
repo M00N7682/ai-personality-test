@@ -2,19 +2,37 @@ const OpenAI = require('openai');
 
 const SYSTEM_PROMPT = `당신은 AI 성격 분석 토론회의 진행자입니다. 3명의 AI가 사용자의 답변 데이터를 읽고 "진짜 토론하는 것처럼" 대사를 생성합니다. 사용자가 읽었을 때 "이건 진짜 내 얘기다"라고 느끼게 하는 것이 최우선 목표입니다.
 
+## 16유형 MBTI 매핑
+- ENTJ: 전략적 통솔자 ♟️
+- ENTP: 논쟁의 달인 💡
+- ENFJ: 정의의 사도 🌟
+- ENFP: 자유로운 영혼 🦋
+- ESTJ: 엄격한 관리자 📋
+- ESTP: 타고난 모험가 🏄
+- ESFJ: 따뜻한 돌봄이 🤗
+- ESFP: 흥의 화신 🎉
+- INTJ: 전략가 🧠
+- INTP: 논리학자 🔬
+- INFJ: 선의의 옹호자 🔮
+- INFP: 감성 몽상가 🌙
+- ISTJ: 현실주의자 🏛️
+- ISTP: 만능 장인 🔧
+- ISFJ: 조용한 수호자 🛡️
+- ISFP: 호기심 많은 예술가 🎨
+
 ## 캐릭터 (각각 완전히 다른 말투)
 
 ### ChatGPT (chatgpt) — 정중한 팩폭러
 - 존댓말 기반. "~하셨는데요", "~라는 의미거든요", "흥미로운 점은요" 식 어미
 - 사용자의 실제 문장을 작은따옴표로 인용하면서 날카로운 분석을 공손하게 전달
-- 객관식 수치(사고축, 에너지축, DNA %)를 자연스럽게 녹여서 근거 제시
+- 객관식 수치(4축 점수, DNA %)를 자연스럽게 녹여서 근거 제시
 - 핵심: 데이터 + 인용 = 설득력 있는 분석
 
 ### Gemini (gemini) — 흥분형 리액션 장인
 - 반말 + 감탄사 폭발. "헐", "미쳤다", "이건 진짜!", "아니 근데" 식 시작
 - 이모지 매 대사 2-3개 필수
 - 과장된 통계를 재밌게 던짐 ("이 조합은 100명 중 3명!", "감성 지수 상위 5%급!")
-- 사용자 문장에서 가장 인상적인 표현을 뽑아 대놓고 감탄
+- MBTI 코드를 재밌게 활용 ("이건 완전 N의 향연!", "J가 강하게 나왔어!")
 - 핵심: 오버 + 유머 + 사용자를 특별하게 만드는 멘트
 
 ### Claude (claude) — 건조한 츳코미 + 반전 따뜻함
@@ -24,13 +42,13 @@ const SYSTEM_PROMPT = `당신은 AI 성격 분석 토론회의 진행자입니�
 - 핵심: 냉정한 요약 → 마지막에 진심 한 줄
 
 ## 토론 흐름 (이것을 반드시 따르세요)
-1번 chatgpt: 셀프 진단과 AI 분석의 갭을 포착하며 문을 엶. 객관식 데이터 인용.
+1번 chatgpt: 셀프 진단과 AI 분석의 갭을 포착하며 문을 엶. 객관식 데이터 인용. MBTI 코드 언급.
 2번 gemini: 주관식에서 가장 인상적인 문장을 찾아 폭발적으로 리액션.
 3번 claude: 둘의 포인트를 냉정하게 정리. 핵심 한 줄로 압축.
 4번 chatgpt: 더 깊이 파고듦. 셀프체크 선택과 에세이 내용의 모순/일관성 짚기.
 5번 gemini: 사용자의 숨은 매력이나 의외의 패턴을 발견하고 흥분.
 6번 claude: 냉정하게 마무리하다가 마지막에 따뜻한 응원/조언으로 반전.
-7번 conclusion: 전체 요약 판정문.
+7번 conclusion: 전체 요약 판정문. MBTI 코드와 유형 이름 포함.
 
 ## 출력 형식
 반드시 아래 JSON만 출력. 다른 텍스트 금지.
@@ -41,9 +59,9 @@ const SYSTEM_PROMPT = `당신은 AI 성격 분석 토론회의 진행자입니�
 1. 정확히 7줄. 순서: chatgpt→gemini→claude→chatgpt→gemini→claude→conclusion
 2. **분량**: 각 대사 80~130자 (3-4문장). conclusion은 150~200자 (4-5문장).
 3. **인용 필수**: 7줄 중 최소 4줄에서 사용자의 실제 문장을 '작은따옴표'로 인용
-4. **데이터 활용**: 사고축/에너지축 점수, DNA %, 셀프체크 선택을 최소 3번 이상 언급
+4. **데이터 활용**: 4축 점수(E/I, S/N, T/F, J/P), DNA %, 셀프체크 선택을 최소 3번 이상 언급
 5. **서로 대화**: AI들이 앞 대사에 반응하는 것처럼 ("ChatGPT 말처럼", "아까 그 수치를 보면" 등)
-6. **conclusion 형식**: [이모지] [유형명] 판정! + 핵심 인사이트 + 사용자 문장 인용 + "ChatGPT는 ~, Gemini는 ~, Claude는 ~ 라는 결론"
+6. **conclusion 형식**: [이모지] [MBTI코드] [유형명] 판정! + 핵심 인사이트 + 사용자 문장 인용 + "ChatGPT는 ~, Gemini는 ~, Claude는 ~ 라는 결론"
 7. 한국어 작성. 자연스러운 구어체.
 8. JSON 외 텍스트 출력 금지`;
 
@@ -56,18 +74,20 @@ function buildUserPrompt(data) {
   const dp = deepPatterns || {};
 
   let prompt = `## 사용자: ${userName}
-- 셀프 진단: ${selfTypeInfo.name} ${selfTypeInfo.emoji}
-- AI 분석 결과: ${typeInfo.name} ${typeInfo.emoji} — ${typeInfo.desc}
+- 셀프 진단: ${selfTypeInfo.mbtiCode || selfTypeInfo.name} ${selfTypeInfo.emoji} ${selfTypeInfo.name}
+- AI 분석 결과: ${typeInfo.mbtiCode || analysisResult.finalType} ${typeInfo.emoji} ${typeInfo.name} — ${typeInfo.desc}
 - 갭: ${gapLevel} (match=일치, slight=약간 다름, big=크게 다름)
 
 ## 객관식 응답 (핵심 데이터)
-- 사고축: ${analysisResult.thinkingScore} (양수=논리, 음수=감성)
-- 에너지축: ${analysisResult.energyScore} (양수=외향, 음수=내향)
+- 사고축(T/F): ${analysisResult.thinkingScore} (양수=논리T, 음수=감성F)
+- 에너지축(E/I): ${analysisResult.energyScore} (양수=외향E, 음수=내향I)
+- 감각축(S/N): ${analysisResult.sensingScore || 0} (양수=감각S, 음수=직관N)
+- 판단축(J/P): ${analysisResult.judgingScore || 0} (양수=판단J, 음수=인식P)
+- MBTI 코드: ${analysisResult.mbtiCode || analysisResult.finalType}
 - 감정 DNA: ${(analysisResult.dna || []).map(d => `${d.name} ${d.score}%`).join(', ')}
 - 키워드: ${(analysisResult.topKeywords || []).join(', ')}
 `;
 
-  // 셀프체크 개별 응답 포함
   if (selfCheckAnswers) {
     prompt += `\n## 셀프체크 선택지\n`;
     for (const [qId, answer] of Object.entries(selfCheckAnswers)) {
@@ -75,7 +95,6 @@ function buildUserPrompt(data) {
     }
   }
 
-  // 에세이 원문 (LLM이 직접 읽고 자연스럽게 인용)
   if (essayQuestions && essayTexts) {
     prompt += `\n## 주관식 답변\n`;
     essayTexts.forEach((text, i) => {
@@ -87,6 +106,7 @@ function buildUserPrompt(data) {
   prompt += `## 지시
 객관식 데이터 + 주관식 답변을 근거로 토론하세요.
 - 주관식에서 인상적인 표현을 자연스럽게 인용하세요.
+- MBTI 코드(${analysisResult.mbtiCode || analysisResult.finalType})와 유형 이름(${typeInfo.name})을 자연스럽게 활용하세요.
 - 갭이 '${gapLevel}'이므로 ${gapLevel === 'match' ? '일치를 칭찬하며' : gapLevel === 'slight' ? '약간의 불일치를 흥미롭게 짚으며' : '큰 반전을 드라마틱하게'} 분석.`;
 
   return prompt;
@@ -121,12 +141,10 @@ module.exports = async function handler(req, res) {
 
     // --- 입력값 검증 ---
 
-    // userName: 문자열, 1~10자
     if (!userName || typeof userName !== 'string' || userName.length > 10) {
       return res.status(400).json({ success: false, error: 'Invalid userName' });
     }
 
-    // analysisResult: 필수 필드 존재 여부
     if (!analysisResult || typeof analysisResult !== 'object' ||
         !analysisResult.typeInfo || !analysisResult.selfTypeInfo ||
         typeof analysisResult.thinkingScore !== 'number' ||
@@ -134,7 +152,6 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ success: false, error: 'Invalid analysisResult' });
     }
 
-    // essayTexts: 배열, 최대 3개, 각 항목 최대 500자
     if (!Array.isArray(essayTexts) || essayTexts.length > 3) {
       return res.status(400).json({ success: false, error: 'Invalid essayTexts' });
     }
@@ -144,10 +161,10 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // selfCheckAnswers: 객체, 최대 20개 키, 각 값 문자열 50자 이하
+    // selfCheckAnswers: 최대 30개 키 (24문항 + 여유)
     if (selfCheckAnswers && typeof selfCheckAnswers === 'object') {
       const keys = Object.keys(selfCheckAnswers);
-      if (keys.length > 20) {
+      if (keys.length > 30) {
         return res.status(400).json({ success: false, error: 'Too many selfcheck answers' });
       }
       for (const v of Object.values(selfCheckAnswers)) {
@@ -186,7 +203,6 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({ success: false, error: 'Empty LLM response, finish_reason: ' + completion.choices[0].finish_reason });
     }
 
-    // JSON 파싱
     let dialogue;
     try {
       const jsonMatch = responseText.match(/\{[\s\S]*\}/);
@@ -199,7 +215,6 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({ success: false, error: 'Parse error: ' + parseErr.message + ' | Response: ' + responseText.slice(0, 100) });
     }
 
-    // 형식 검증
     if (!dialogue.lines || !Array.isArray(dialogue.lines) || dialogue.lines.length < 5) {
       return res.status(500).json({ success: false, error: 'Invalid dialogue format' });
     }

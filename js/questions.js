@@ -1,9 +1,11 @@
 /**
  * 질문 데이터 + 셀프체크 로직
+ * 4축 MBTI 기반: E/I, S/N, T/F, J/P
+ * 총 24문항
  */
 
 const SELFCHECK_QUESTIONS = [
-  // --- 사고축 (thinking) ---
+  // --- 사고축 (thinking: T/F) ---
   {
     id: 'thinking',
     question: '나는 어떤 타입이라고 생각해요?',
@@ -17,10 +19,10 @@ const SELFCHECK_QUESTIONS = [
     id: 'decision',
     question: '중요한 결정을 내릴 때?',
     options: [
-      { label: '장단점을 꼼꼼히 비교하고 결정', value: 'analyze', axis: 'thinking', score: 60 },
-      { label: '직감이 이끄는 대로 결정', value: 'intuition', axis: 'thinking', score: -60 },
+      { label: '장단점을 꼼꼼히 비교하고 결정', value: 'analyze', axis: 'thinking', score: 60, secondaryAxis: 'sensing', secondaryScore: 30 },
+      { label: '직감이 이끄는 대로 결정', value: 'intuition', axis: 'thinking', score: -60, secondaryAxis: 'sensing', secondaryScore: -40 },
       { label: '주변 사람들 의견을 많이 들어봄', value: 'consult', axis: 'energy', score: 40 },
-      { label: '일단 해보고 아니면 바꿈', value: 'trial', axis: 'thinking', score: -20 }
+      { label: '일단 해보고 아니면 바꿈', value: 'trial', axis: 'thinking', score: -20, secondaryAxis: 'judging', secondaryScore: -40 }
     ]
   },
   {
@@ -47,9 +49,9 @@ const SELFCHECK_QUESTIONS = [
     id: 'movie',
     question: '영화 볼 때 끌리는 장르는?',
     options: [
-      { label: '추리/스릴러 (반전이 좋아)', value: 'thriller', axis: 'thinking', score: 45 },
-      { label: '로맨스/드라마 (감정이입)', value: 'romance', axis: 'thinking', score: -50 },
-      { label: '다큐/논픽션 (배우는 게 좋아)', value: 'docu', axis: 'thinking', score: 55 },
+      { label: '추리/스릴러 (반전이 좋아)', value: 'thriller', axis: 'thinking', score: 45, secondaryAxis: 'sensing', secondaryScore: -30 },
+      { label: '로맨스/드라마 (감정이입)', value: 'romance', axis: 'thinking', score: -50, secondaryAxis: 'sensing', secondaryScore: 20 },
+      { label: '다큐/논픽션 (배우는 게 좋아)', value: 'docu', axis: 'thinking', score: 55, secondaryAxis: 'sensing', secondaryScore: 35 },
       { label: '코미디/예능 (웃기면 장땡)', value: 'comedy', axis: 'energy', score: 30 }
     ]
   },
@@ -87,13 +89,13 @@ const SELFCHECK_QUESTIONS = [
     id: 'plan',
     question: '여행 계획은?',
     options: [
-      { label: '시간대별로 꼼꼼하게 짬', value: 'detail', axis: 'thinking', score: 45 },
-      { label: '가서 느낌 오는 대로', value: 'freeflow', axis: 'thinking', score: -45 },
-      { label: '맛집이랑 핵심만 정하고 나머진 자유', value: 'semi', axis: 'thinking', score: 10 },
-      { label: '누가 짜주면 따라감', value: 'follow', axis: 'energy', score: -15 }
+      { label: '시간대별로 꼼꼼하게 짬', value: 'detail', axis: 'thinking', score: 45, secondaryAxis: 'judging', secondaryScore: 60 },
+      { label: '가서 느낌 오는 대로', value: 'freeflow', axis: 'thinking', score: -45, secondaryAxis: 'judging', secondaryScore: -60 },
+      { label: '맛집이랑 핵심만 정하고 나머진 자유', value: 'semi', axis: 'thinking', score: 10, secondaryAxis: 'judging', secondaryScore: 10 },
+      { label: '누가 짜주면 따라감', value: 'follow', axis: 'energy', score: -15, secondaryAxis: 'judging', secondaryScore: -20 }
     ]
   },
-  // --- 에너지축 (energy) ---
+  // --- 에너지축 (energy: E/I) ---
   {
     id: 'social',
     question: '모임에서 나는 보통?',
@@ -183,6 +185,68 @@ const SELFCHECK_QUESTIONS = [
       { label: '밖에 나가서 산책이라도', value: 'walk', axis: 'energy', score: 15 },
       { label: '사람 많은 카페에서 멍 때리기', value: 'cafe', axis: 'energy', score: 30 }
     ]
+  },
+  // --- 감각축 (sensing: S/N) ---
+  {
+    id: 'info',
+    question: '새로운 정보를 받아들일 때?',
+    options: [
+      { label: '구체적인 사실과 데이터가 중요', value: 'facts', axis: 'sensing', score: 60 },
+      { label: '전체적인 흐름과 의미가 중요', value: 'meaning', axis: 'sensing', score: -60 },
+      { label: '직접 경험해봐야 이해됨', value: 'experience', axis: 'sensing', score: 40 },
+      { label: '패턴이나 가능성을 먼저 봄', value: 'pattern', axis: 'sensing', score: -45 }
+    ]
+  },
+  {
+    id: 'conversation',
+    question: '대화할 때 나는?',
+    options: [
+      { label: '실제 있었던 일 위주로 얘기', value: 'real', axis: 'sensing', score: 55 },
+      { label: '아이디어나 가능성 얘기를 좋아함', value: 'idea', axis: 'sensing', score: -55 },
+      { label: '구체적인 디테일을 잘 기억', value: 'detail', axis: 'sensing', score: 45 },
+      { label: '비유나 상징적 표현을 자주 씀', value: 'metaphor', axis: 'sensing', score: -50 }
+    ]
+  },
+  {
+    id: 'project',
+    question: '새 프로젝트를 시작할 때?',
+    options: [
+      { label: '검증된 방법으로 안전하게', value: 'proven', axis: 'sensing', score: 50 },
+      { label: '새로운 방식으로 도전!', value: 'new', axis: 'sensing', score: -50 },
+      { label: '현실적으로 가능한 것부터 체크', value: 'realistic', axis: 'sensing', score: 40 },
+      { label: '큰 그림부터 그리고 시작', value: 'bigpicture', axis: 'sensing', score: -45 }
+    ]
+  },
+  // --- 판단축 (judging: J/P) ---
+  {
+    id: 'cancel',
+    question: '갑자기 약속이 취소되면?',
+    options: [
+      { label: '아까운데... 다른 계획을 세움', value: 'replan', axis: 'judging', score: 50 },
+      { label: '오예! 자유시간 생겼다!', value: 'free', axis: 'judging', score: -60 },
+      { label: '짜증남, 계획이 틀어졌잖아', value: 'annoyed', axis: 'judging', score: 65 },
+      { label: '뭐 어때, 그때그때 알아서', value: 'whatever', axis: 'judging', score: -45 }
+    ]
+  },
+  {
+    id: 'todo',
+    question: '할 일 목록(to-do list)에 대해?',
+    options: [
+      { label: '매일 쓰고 하나씩 체크하는 맛!', value: 'daily', axis: 'judging', score: 70 },
+      { label: '머릿속에 대충 있음', value: 'mental', axis: 'judging', score: -30 },
+      { label: '만들긴 하는데 잘 안 봄', value: 'make_ignore', axis: 'judging', score: 15 },
+      { label: '리스트 없이도 잘 살아감', value: 'none', axis: 'judging', score: -55 }
+    ]
+  },
+  {
+    id: 'deadline',
+    question: '마감이 다가오면?',
+    options: [
+      { label: '이미 끝내놨지 뭐', value: 'early', axis: 'judging', score: 70 },
+      { label: '계획대로 착착 진행 중', value: 'ontrack', axis: 'judging', score: 45 },
+      { label: '마감 직전에 폭발적 집중력 발휘', value: 'lastminute', axis: 'judging', score: -55 },
+      { label: '마감? 유연하게 조정하면 되지', value: 'flexible', axis: 'judging', score: -50 }
+    ]
   }
 ];
 
@@ -205,12 +269,15 @@ const ESSAY_QUESTIONS = [
 ];
 
 /**
- * 셀프체크 결과에서 예상 유형을 계산
- * returns { thinkingScore, energyScore, selfType }
+ * 셀프체크 결과에서 예상 MBTI 유형을 계산
+ * returns { thinkingScore, energyScore, sensingScore, judgingScore, selfType }
+ * selfType: 4글자 MBTI 코드 (예: "ENTJ")
  */
 function calculateSelfType(answers) {
   let thinkingScore = 0;
   let energyScore = 0;
+  let sensingScore = 0;
+  let judgingScore = 0;
 
   for (const q of SELFCHECK_QUESTIONS) {
     const answer = answers[q.id];
@@ -218,27 +285,46 @@ function calculateSelfType(answers) {
     const option = q.options.find(o => o.value === answer);
     if (!option) continue;
 
+    // 주축 점수
     if (option.axis === 'thinking') {
       thinkingScore += option.score;
     } else if (option.axis === 'energy') {
       energyScore += option.score;
+    } else if (option.axis === 'sensing') {
+      sensingScore += option.score;
+    } else if (option.axis === 'judging') {
+      judgingScore += option.score;
+    }
+
+    // 보조축 점수 (이중 축 기여)
+    if (option.secondaryAxis && option.secondaryScore) {
+      if (option.secondaryAxis === 'sensing') {
+        sensingScore += option.secondaryScore;
+      } else if (option.secondaryAxis === 'judging') {
+        judgingScore += option.secondaryScore;
+      }
     }
   }
 
-  // 정규화: 질문 수에 따라 -100~100 범위로 스케일링
-  const thinkingQs = SELFCHECK_QUESTIONS.filter(q => q.options.some(o => o.axis === 'thinking')).length || 1;
-  const energyQs = SELFCHECK_QUESTIONS.filter(q => q.options.some(o => o.axis === 'energy')).length || 1;
-  thinkingScore = Math.max(-100, Math.min(100, Math.round(thinkingScore / thinkingQs * 2)));
-  energyScore = Math.max(-100, Math.min(100, Math.round(energyScore / energyQs * 2)));
+  // 정규화: 각 축의 질문 수에 따라 -100~100 범위로 스케일링
+  const axisQuestionCount = (axis) => {
+    return SELFCHECK_QUESTIONS.filter(q =>
+      q.options.some(o => o.axis === axis) ||
+      q.options.some(o => o.secondaryAxis === axis)
+    ).length || 1;
+  };
 
-  const isT = thinkingScore >= 0;
-  const isE = energyScore >= 0;
+  thinkingScore = Math.max(-100, Math.min(100, Math.round(thinkingScore / axisQuestionCount('thinking') * 2)));
+  energyScore = Math.max(-100, Math.min(100, Math.round(energyScore / axisQuestionCount('energy') * 2)));
+  sensingScore = Math.max(-100, Math.min(100, Math.round(sensingScore / axisQuestionCount('sensing') * 2)));
+  judgingScore = Math.max(-100, Math.min(100, Math.round(judgingScore / axisQuestionCount('judging') * 2)));
 
-  let selfType;
-  if (isT && isE) selfType = 'TE';
-  else if (isT && !isE) selfType = 'TI';
-  else if (!isT && isE) selfType = 'FE';
-  else selfType = 'FI';
+  // 4글자 MBTI 코드 결정
+  const e_i = energyScore >= 0 ? 'E' : 'I';
+  const s_n = sensingScore >= 0 ? 'S' : 'N';
+  const t_f = thinkingScore >= 0 ? 'T' : 'F';
+  const j_p = judgingScore >= 0 ? 'J' : 'P';
+  const selfType = e_i + s_n + t_f + j_p;
 
-  return { thinkingScore, energyScore, selfType };
+  return { thinkingScore, energyScore, sensingScore, judgingScore, selfType };
 }
