@@ -18,11 +18,11 @@ window.QUESTIONS = [
   {
     question: '첫 만남에서 나는?',
     options: [
-      { text: '수줍게 눈만 마주치다 피함', scores: { youngwoo: 3, suzume: 2, chihiro: 1 } },
+      { text: '수줍게 눈만 마주치다 피한다', scores: { youngwoo: 3, suzume: 2, chihiro: 1 } },
       { text: '먼저 말 걸고 분위기 주도', scores: { heedo: 3, sol: 2, onjo: 2 } },
       { text: '친구를 통해 자연스럽게 접근', scores: { moonyoung: 2, euntak: 2, rapunzel: 1 } },
       { text: '우연을 가장한 완벽한 계획', scores: { haein: 2, mikasa: 1, elsa: 2 } },
-      { text: '일단 관찰하면서 정보 수집부터 함', scores: { elsa: 2, chihiro: 2, moonyoung: 1 } },
+      { text: '일단 관찰하면서 정보 수집부터 한다', scores: { elsa: 2, chihiro: 2, moonyoung: 1 } },
     ],
   },
   {
@@ -32,18 +32,18 @@ window.QUESTIONS = [
       { text: '냉전하다가 결국 내가 먼저 연락', scores: { euntak: 2, youngwoo: 2, rapunzel: 1 } },
       { text: '편지나 긴 카톡으로 마음 정리해서 전달', scores: { chihiro: 2, sol: 2, elsa: 2 } },
       { text: '할 말 다 하고 쿨하게 정리', scores: { heedo: 3, mikasa: 2, onjo: 2 } },
-      { text: '일단 맛있는 거 같이 먹으면서 분위기 풀어봄', scores: { sol: 2, onjo: 2, rapunzel: 2 } },
+      { text: '일단 맛있는 거 같이 먹으면서 분위기 풀어본다', scores: { sol: 2, onjo: 2, rapunzel: 2 } },
       { text: '화난 척하면서 상대 반응 떠보는 중', scores: { haein: 2, heedo: 1, euntak: 2 } },
     ],
   },
   {
     question: '이별 후 나는?',
     options: [
-      { text: '한동안 폐인 모드... 노래만 들음', scores: { haein: 3, youngwoo: 3, suzume: 2 } },
+      { text: '한동안 폐인 모드... 노래만 듣는다', scores: { haein: 3, youngwoo: 3, suzume: 2 } },
       { text: '바로 자기계발 돌입! 운동, 공부', scores: { elsa: 3, mikasa: 2, sol: 1 } },
-      { text: '재회를 위한 작전을 세움', scores: { euntak: 2, heedo: 2, rapunzel: 1 } },
+      { text: '재회를 위한 작전을 세운다', scores: { euntak: 2, heedo: 2, rapunzel: 1 } },
       { text: '새로운 만남에 오픈! 다음 사랑으로', scores: { onjo: 3, sol: 2, chihiro: 1 } },
-      { text: '친구들 불러 모아서 실컷 수다 떨며 풀어냄', scores: { onjo: 2, sol: 2, rapunzel: 2 } },
+      { text: '친구들 불러 모아서 실컷 수다 떨며 풀어낸다', scores: { onjo: 2, sol: 2, rapunzel: 2 } },
     ],
   },
   {
@@ -70,11 +70,11 @@ window.QUESTIONS = [
   {
     question: '좋아하는 사람이 생기면?',
     options: [
-      { text: '티도 못 내고 혼자 끙끙앓음', scores: { youngwoo: 3, suzume: 2, elsa: 2 } },
+      { text: '티도 못 내고 혼자 끙끙앓는다', scores: { youngwoo: 3, suzume: 2, elsa: 2 } },
       { text: '친구들한테 먼저 알리고 작전 회의', scores: { onjo: 3, sol: 2, euntak: 1 } },
       { text: '직접 고백! 후회 없이', scores: { heedo: 3, mikasa: 2, sol: 1 } },
-      { text: '상대가 먼저 다가오길 은근히 시그널 보냄', scores: { rapunzel: 2, moonyoung: 2, haein: 2 } },
-      { text: '일단 친구로 가까워지면서 천천히 거리 좁힘', scores: { chihiro: 2, moonyoung: 2, euntak: 2 } },
+      { text: '상대가 먼저 다가오길 은근히 시그널 보낸다', scores: { rapunzel: 2, moonyoung: 2, haein: 2 } },
+      { text: '일단 친구로 가까워지면서 천천히 거리 좁힌다', scores: { chihiro: 2, moonyoung: 2, euntak: 2 } },
       { text: '좋아하는 건 맞는데... 이게 진짜 좋아하는 건지 분석 중', scores: { elsa: 2, youngwoo: 2, chihiro: 2 } },
     ],
   },
@@ -91,21 +91,21 @@ window.QUESTIONS = [
   {
     question: '연인이 힘들어할 때 나는?',
     options: [
-      { text: '아무 말 않고 꼭 안아줌', scores: { suzume: 3, moonyoung: 2, haein: 2 } },
-      { text: '문제 해결을 위해 직접 나섬', scores: { mikasa: 3, heedo: 2, sol: 1 } },
-      { text: '맛있는 거 사들고 찾아감', scores: { onjo: 2, sol: 2, rapunzel: 2 } },
-      { text: '혼자만의 시간을 줘야 할지 고민함', scores: { elsa: 3, youngwoo: 2, chihiro: 1 } },
-      { text: '밤새 전화 통화하면서 다 들어줌', scores: { moonyoung: 2, haein: 2, euntak: 2 } },
-      { text: '억지로라도 웃기려고 온갖 노력 다 함', scores: { onjo: 3, sol: 1, rapunzel: 2 } },
+      { text: '아무 말 않고 꼭 안아준다', scores: { suzume: 3, moonyoung: 2, haein: 2 } },
+      { text: '문제 해결을 위해 직접 나선다', scores: { mikasa: 3, heedo: 2, sol: 1 } },
+      { text: '맛있는 거 사들고 찾아간다', scores: { onjo: 2, sol: 2, rapunzel: 2 } },
+      { text: '혼자만의 시간을 줘야 할지 고민한다', scores: { elsa: 3, youngwoo: 2, chihiro: 1 } },
+      { text: '밤새 전화 통화하면서 다 들어준다', scores: { moonyoung: 2, haein: 2, euntak: 2 } },
+      { text: '억지로라도 웃기려고 온갖 노력 다 한다', scores: { onjo: 3, sol: 1, rapunzel: 2 } },
     ],
   },
   {
     question: '전 애인과의 추억은?',
     options: [
-      { text: '가끔 떠올리며 그리워함... 못 잊어', scores: { youngwoo: 3, haein: 3, suzume: 1 } },
+      { text: '가끔 떠올리며 그리워한다... 못 잊어', scores: { youngwoo: 3, haein: 3, suzume: 1 } },
       { text: '좋은 경험이었다고 깔끔하게 정리', scores: { elsa: 2, sol: 2, mikasa: 2 } },
       { text: '추억은 추억이고, 새 사랑에 집중', scores: { onjo: 2, chihiro: 2, rapunzel: 2 } },
-      { text: '아직도 가끔 "다시 만나면..." 상상함', scores: { euntak: 3, moonyoung: 2, heedo: 1 } },
+      { text: '아직도 가끔 "다시 만나면..." 상상한다', scores: { euntak: 3, moonyoung: 2, heedo: 1 } },
     ],
   },
   {
@@ -123,21 +123,21 @@ window.QUESTIONS = [
     question: '사랑에 빠지면 나는?',
     options: [
       { text: '상대에게 올인! 모든 게 그 사람 중심', scores: { suzume: 3, mikasa: 2, euntak: 2 } },
-      { text: '좋아하지만 내 생활도 중요해', scores: { elsa: 3, sol: 2, moonyoung: 1 } },
-      { text: '감정 표현은 서툴지만 행동으로 보여줌', scores: { chihiro: 2, youngwoo: 2, haein: 2 } },
+      { text: '좋아하지만 내 생활도 중요하다', scores: { elsa: 3, sol: 2, moonyoung: 1 } },
+      { text: '감정 표현은 서툴지만 행동으로 보여준다', scores: { chihiro: 2, youngwoo: 2, haein: 2 } },
       { text: '연애가 곧 축제! 매일이 설렘', scores: { onjo: 2, rapunzel: 2, heedo: 3 } },
-      { text: '좋아하는 마음 감추려는데 얼굴이 다 말해버림', scores: { youngwoo: 2, rapunzel: 2, suzume: 2 } },
+      { text: '좋아하는 마음 감추려는데 얼굴이 다 말해버린다', scores: { youngwoo: 2, rapunzel: 2, suzume: 2 } },
     ],
   },
   {
     question: '연인과의 미래를 상상하면?',
     options: [
-      { text: '영화 같은 결혼식... 드레스까지 골라둠', scores: { euntak: 3, rapunzel: 2, suzume: 2 } },
+      { text: '영화 같은 결혼식... 드레스까지 골라둔다', scores: { euntak: 3, rapunzel: 2, suzume: 2 } },
       { text: '같이 여행 다니며 추억 쌓는 모습', scores: { chihiro: 3, sol: 2, onjo: 1 } },
       { text: '편안한 일상을 함께하는 것만으로 충분', scores: { moonyoung: 3, youngwoo: 2, elsa: 1 } },
-      { text: '미래보다 지금 이 순간이 중요해', scores: { heedo: 2, mikasa: 2, haein: 3 } },
-      { text: '같이 뭔가 해내는 파트너가 되고 싶어', scores: { mikasa: 2, elsa: 2, chihiro: 2 } },
-      { text: '상상만으로도 심장이 터질 것 같아서 생각 안 하려고 함', scores: { youngwoo: 2, suzume: 2, haein: 2 } },
+      { text: '미래보다 지금 이 순간이 중요하다', scores: { heedo: 2, mikasa: 2, haein: 3 } },
+      { text: '같이 뭔가 해내는 파트너가 되고 싶다', scores: { mikasa: 2, elsa: 2, chihiro: 2 } },
+      { text: '상상만으로도 심장이 터질 것 같아서 생각 안 하려고 한다', scores: { youngwoo: 2, suzume: 2, haein: 2 } },
     ],
   },
 ];

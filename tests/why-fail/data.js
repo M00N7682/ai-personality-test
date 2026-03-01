@@ -18,11 +18,11 @@ window.QUESTIONS = [
   {
     question: '연애 초반, 나는 보통 어떤 편이야?',
     options: [
-      { text: '시작부터 올인! 하루종일 연락하고 매일 만나고 싶어', scores: { allin: 3, dependent: 1 } },
-      { text: '좋지만... 괜히 경계부터 하게 돼. 상처받을까 봐', scores: { avoidant: 3, timing: 1 } },
-      { text: '설레는데 빨리 식을까 봐 걱정이 돼', scores: { boring: 2, perfectionist: 2 } },
-      { text: '상대가 날 얼마나 좋아하는지 계속 확인하게 돼', scores: { jealous: 2, dependent: 2 } },
-      { text: '좋긴 한데 티를 잘 안 내고 관망하는 편이야', scores: { communicate: 2, avoidant: 2 } },
+      { text: '시작부터 올인! 하루종일 연락하고 매일 만나고 싶다', scores: { allin: 3, dependent: 1 } },
+      { text: '좋지만... 괜히 경계부터 하게 된다. 상처받을까 봐', scores: { avoidant: 3, timing: 1 } },
+      { text: '설레는데 빨리 식을까 봐 걱정이 된다', scores: { boring: 2, perfectionist: 2 } },
+      { text: '상대가 날 얼마나 좋아하는지 계속 확인하게 된다', scores: { jealous: 2, dependent: 2 } },
+      { text: '좋긴 한데 티를 잘 안 내고 관망하는 편이다', scores: { communicate: 2, avoidant: 2 } },
     ],
   },
   {
@@ -31,7 +31,7 @@ window.QUESTIONS = [
       { text: '연락이나 시간 분배 문제 ("왜 답장 늦어?")', scores: { jealous: 2, dependent: 2 } },
       { text: '가치관이나 생활 방식 차이 ("왜 그렇게 생각해?"', scores: { perfectionist: 3, communicate: 1 } },
       { text: '말 안 해도 알아줄 거라 생각했는데 몰라줄 때', scores: { communicate: 3, avoidant: 1 } },
-      { text: '사소한 것들이 쌓여서 어느 날 갑자기 터짐', scores: { boring: 2, communicate: 2 } },
+      { text: '사소한 것들이 쌓여서 어느 날 갑자기 터진다', scores: { boring: 2, communicate: 2 } },
       { text: '내 기준에 안 맞는 행동을 반복할 때', scores: { perfectionist: 2, boring: 1, jealous: 1 } },
       { text: '상대가 내 노력을 당연하게 여길 때', scores: { allin: 2, dependent: 2 } },
     ],
@@ -39,22 +39,22 @@ window.QUESTIONS = [
   {
     question: '이별은 주로 어떤 식이었어?',
     options: [
-      { text: '내가 너무 퍼줬는데 지쳐서... 결국 상대가 떠남', scores: { allin: 3, dependent: 1 } },
-      { text: '내가 먼저 도망쳤어. 가까워지는 게 무서워서', scores: { avoidant: 3, timing: 1 } },
+      { text: '내가 너무 퍼줬는데 지쳐서... 결국 상대가 떠난다', scores: { allin: 3, dependent: 1 } },
+      { text: '내가 먼저 도망쳤다. 가까워지는 게 무서워서', scores: { avoidant: 3, timing: 1 } },
       { text: '자연소멸... 어느 순간 연락이 뜸해지면서', scores: { boring: 3, communicate: 1 } },
-      { text: '나도 상대도 노력했는데, 뭔가 안 맞았어', scores: { timing: 2, perfectionist: 2 } },
-      { text: '참다 참다 한 번 크게 터져서 돌이킬 수 없게 됨', scores: { communicate: 2, jealous: 2 } },
+      { text: '나도 상대도 노력했는데, 뭔가 안 맞았다', scores: { timing: 2, perfectionist: 2 } },
+      { text: '참다 참다 한 번 크게 터져서 돌이킬 수 없게 된다', scores: { communicate: 2, jealous: 2 } },
     ],
   },
   {
     question: '이별 직후 나의 패턴은?',
     options: [
-      { text: '바로 다른 사람을 만나거나 썸을 탐', scores: { dependent: 3, boring: 1 } },
-      { text: '오래 혼자 있으면서 힘들어함', scores: { allin: 2, communicate: 2 } },
-      { text: '전 애인에게 연락하고 싶은 충동이 강함', scores: { dependent: 2, jealous: 2 } },
-      { text: '"다음엔 달라질 거야" 하면서 자기 반성', scores: { perfectionist: 2, timing: 2 } },
-      { text: '괜히 SNS 스토킹하면서 미련 부림', scores: { jealous: 2, allin: 1, dependent: 1 } },
-      { text: '의외로 담담해... 이미 마음이 정리된 상태라', scores: { avoidant: 2, boring: 2 } },
+      { text: '바로 다른 사람을 만나거나 썸을 탄다', scores: { dependent: 3, boring: 1 } },
+      { text: '오래 혼자 있으면서 힘들어한다', scores: { allin: 2, communicate: 2 } },
+      { text: '전 애인에게 연락하고 싶은 충동이 강하다', scores: { dependent: 2, jealous: 2 } },
+      { text: '"다음엔 달라질 거야" 하면서 자기 반성한다', scores: { perfectionist: 2, timing: 2 } },
+      { text: '괜히 SNS 스토킹하면서 미련 부린다', scores: { jealous: 2, allin: 1, dependent: 1 } },
+      { text: '의외로 담담하다... 이미 마음이 정리된 상태라', scores: { avoidant: 2, boring: 2 } },
     ],
   },
   {
@@ -69,22 +69,22 @@ window.QUESTIONS = [
   {
     question: '상대가 바빠서 연락이 뜸할 때 나는?',
     options: [
-      { text: '"바쁘구나~" 하면서도 속으로 불안 폭발', scores: { jealous: 3, dependent: 1 } },
-      { text: '오히려 편해... 나도 내 시간이 생기니까', scores: { avoidant: 2, boring: 2 } },
-      { text: '"나한테 관심 없어진 건가?" 혼자 삐져있음', scores: { communicate: 2, dependent: 2 } },
-      { text: '나도 연락 안 하면서 누가 먼저 하나 시험함', scores: { allin: 1, avoidant: 2, communicate: 1 } },
+      { text: '"바쁘구나~" 하면서도 속으로 불안이 폭발한다', scores: { jealous: 3, dependent: 1 } },
+      { text: '오히려 편하다... 나도 내 시간이 생기니까', scores: { avoidant: 2, boring: 2 } },
+      { text: '"나한테 관심 없어진 건가?" 혼자 삐져 있다', scores: { communicate: 2, dependent: 2 } },
+      { text: '나도 연락 안 하면서 누가 먼저 하나 시험한다', scores: { allin: 1, avoidant: 2, communicate: 1 } },
       { text: '이해는 하는데 그래도 "보고 싶다" 한마디는 해줬으면', scores: { allin: 2, jealous: 1, communicate: 1 } },
     ],
   },
   {
     question: '관계에서 불만이 생기면\n어떻게 해?',
     options: [
-      { text: '참고 참다가 어느 날 한꺼번에 폭발함', scores: { communicate: 3, allin: 1 } },
-      { text: '돌려 말하거나 분위기로 알아채길 바람', scores: { communicate: 2, avoidant: 2 } },
-      { text: '바로 말하긴 하는데, 감정적으로 터져나옴', scores: { jealous: 2, allin: 2 } },
-      { text: '불만이 쌓이면 그냥 마음이 식어버림', scores: { boring: 3, timing: 1 } },
-      { text: '메모장에 정리해놓고 조목조목 따짐', scores: { perfectionist: 2, communicate: 2 } },
-      { text: '불만을 느끼는 내가 이상한 건가 싶어서 참음', scores: { dependent: 2, avoidant: 2 } },
+      { text: '참고 참다가 어느 날 한꺼번에 폭발한다', scores: { communicate: 3, allin: 1 } },
+      { text: '돌려 말하거나 분위기로 알아채길 바란다', scores: { communicate: 2, avoidant: 2 } },
+      { text: '바로 말하긴 하는데, 감정적으로 터져나온다', scores: { jealous: 2, allin: 2 } },
+      { text: '불만이 쌓이면 그냥 마음이 식어버린다', scores: { boring: 3, timing: 1 } },
+      { text: '메모장에 정리해놓고 조목조목 따진다', scores: { perfectionist: 2, communicate: 2 } },
+      { text: '불만을 느끼는 내가 이상한 건가 싶어서 참는다', scores: { dependent: 2, avoidant: 2 } },
     ],
   },
   {
@@ -100,10 +100,10 @@ window.QUESTIONS = [
   {
     question: '연인의 이성 친구 관계에\n대한 나의 태도는?',
     options: [
-      { text: 'SNS 확인, 연락 빈도 체크... 은근히 감시함', scores: { jealous: 3, dependent: 1 } },
-      { text: '신경 쓰이지만 괜찮은 척 함', scores: { communicate: 2, avoidant: 2 } },
-      { text: '진짜 별로 신경 안 씀. 믿으니까', scores: { boring: 1, timing: 2, avoidant: 1 } },
-      { text: '직접 물어보고 확실하게 선을 긋게 함', scores: { perfectionist: 2, jealous: 2 } },
+      { text: 'SNS 확인, 연락 빈도 체크... 은근히 감시한다', scores: { jealous: 3, dependent: 1 } },
+      { text: '신경 쓰이지만 괜찮은 척 한다', scores: { communicate: 2, avoidant: 2 } },
+      { text: '진짜 별로 신경 안 쓴다. 믿으니까', scores: { boring: 1, timing: 2, avoidant: 1 } },
+      { text: '직접 물어보고 확실하게 선을 긋게 한다', scores: { perfectionist: 2, jealous: 2 } },
     ],
   },
   {
@@ -120,11 +120,11 @@ window.QUESTIONS = [
   {
     question: '사귀는 사이에서\n나의 연락 패턴은?',
     options: [
-      { text: '상대보다 항상 내가 먼저, 더 자주 연락함', scores: { allin: 2, dependent: 2 } },
-      { text: '상대가 먼저 하면 답장하는 편. 내가 먼저는 잘 안 함', scores: { avoidant: 3, boring: 1 } },
-      { text: '읽씹당하면 불안해서 또 보냄', scores: { jealous: 2, dependent: 2 } },
-      { text: '초반엔 열심히 하다가 점점 줄어듦', scores: { boring: 2, allin: 2 } },
-      { text: '연락보다 만나서 얘기하는 게 편해서 카톡은 대충', scores: { communicate: 1, timing: 2, avoidant: 1 } },
+      { text: '상대보다 항상 내가 먼저, 더 자주 연락한다', scores: { allin: 2, dependent: 2 } },
+      { text: '상대가 먼저 하면 답장하는 편. 내가 먼저는 잘 안 한다', scores: { avoidant: 3, boring: 1 } },
+      { text: '읽씹당하면 불안해서 또 보낸다', scores: { jealous: 2, dependent: 2 } },
+      { text: '초반엔 열심히 하다가 점점 줄어든다', scores: { boring: 2, allin: 2 } },
+      { text: '연락보다 만나서 얘기하는 게 편해서 카톡은 대충 한다', scores: { communicate: 1, timing: 2, avoidant: 1 } },
     ],
   },
   {
@@ -141,11 +141,11 @@ window.QUESTIONS = [
   {
     question: '연인에게 "요즘 우리 좀 별로인 것 같아"\n라고 들으면?',
     options: [
-      { text: '패닉... 뭘 잘못했는지 매달리면서 물어봄', scores: { dependent: 3, allin: 1 } },
-      { text: '"그래? 그럼 정리하자" 빠르게 정리하려 함', scores: { avoidant: 2, boring: 2 } },
-      { text: '"뭐가 별로인데?" 구체적으로 따지고 들어감', scores: { perfectionist: 2, jealous: 2 } },
-      { text: '사실 나도 느끼고 있었는데 말을 못 했음', scores: { communicate: 3, timing: 1 } },
-      { text: '일단 아무 말 안 하고 생각을 정리하려고 시간을 달라고 함', scores: { avoidant: 2, communicate: 1, timing: 1 } },
+      { text: '패닉... 뭘 잘못했는지 매달리면서 물어본다', scores: { dependent: 3, allin: 1 } },
+      { text: '"그래? 그럼 정리하자" 빠르게 정리하려 한다', scores: { avoidant: 2, boring: 2 } },
+      { text: '"뭐가 별로인데?" 구체적으로 따지고 들어간다', scores: { perfectionist: 2, jealous: 2 } },
+      { text: '사실 나도 느끼고 있었는데 말을 못 했다', scores: { communicate: 3, timing: 1 } },
+      { text: '일단 아무 말 안 하고 생각을 정리하려고 시간을 달라고 한다', scores: { avoidant: 2, communicate: 1, timing: 1 } },
     ],
   },
   {
