@@ -71,8 +71,35 @@ const ResultCard = {
     // 재미있는 사실
     document.getElementById('funfact-text').textContent = typeInfo.funFact;
 
-    // 조언
-    document.getElementById('warning-text').textContent = typeInfo.warning;
+    // 인지 기능 스택
+    const cognitiveEl = document.getElementById('cognitive-text');
+    if (cognitiveEl && typeInfo.cognitiveStack) {
+      cognitiveEl.textContent = `${typeInfo.cognitiveStack} — 인구 비율 약 ${typeInfo.population || '?'}`;
+    }
+
+    // 같은 유형 유명인
+    const famousTags = document.getElementById('famous-tags');
+    if (famousTags && typeInfo.famousExamples) {
+      famousTags.innerHTML = '';
+      typeInfo.famousExamples.forEach(name => {
+        const tag = document.createElement('span');
+        tag.className = 'famous-tag';
+        tag.textContent = name;
+        famousTags.appendChild(tag);
+      });
+    }
+
+    // 소통 스타일
+    const commEl = document.getElementById('communication-text');
+    if (commEl && typeInfo.communicationStyle) {
+      commEl.textContent = typeInfo.communicationStyle;
+    }
+
+    // 스트레스 반응
+    const stressEl = document.getElementById('stress-text');
+    if (stressEl && typeInfo.stressResponse) {
+      stressEl.textContent = typeInfo.stressResponse;
+    }
 
     // 강점
     const strengthsList = document.getElementById('strengths-list');
@@ -131,7 +158,6 @@ const ResultCard = {
     const grid = document.getElementById('typemap-grid');
     grid.innerHTML = '';
 
-    // 4x4 MBTI 레이아웃
     const layout = [
       ['INTJ', 'INTP', 'ENTJ', 'ENTP'],
       ['INFJ', 'INFP', 'ENFJ', 'ENFP'],
@@ -183,7 +209,6 @@ const ResultCard = {
     captureWrap.appendChild(card.cloneNode(true));
     document.body.appendChild(captureWrap);
 
-    // DNA 바 width 설정
     const originalBars = card.querySelectorAll('.dna-bar-fill');
     const cloneBars = captureWrap.querySelectorAll('.dna-bar-fill');
     originalBars.forEach((bar, i) => {

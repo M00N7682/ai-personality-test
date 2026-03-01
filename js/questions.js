@@ -250,23 +250,283 @@ const SELFCHECK_QUESTIONS = [
   }
 ];
 
-const ESSAY_QUESTIONS = [
-  {
-    id: 'thoughts',
-    question: '요즘 가장 많이 하는 생각이 뭐예요?\n자유롭게 적어주세요.',
-    purpose: '현재 관심사, 사고 패턴, 문장 구조 파악'
+// ============================================================
+// AI_COMMENTS: 24문항 × 각 선택지별 AI 캐릭터 코멘트
+// 캐릭터 로테이션: chatgpt → gemini → claude (3문항 단위 순환)
+// ============================================================
+const AI_COMMENTS = {
+
+  // ── Q1: thinking (chatgpt) ──
+  'thinking': {
+    'T': { character: 'chatgpt', text: '논리적 사고를 선호하시는군요. 감정보다 이성이 앞서는 타입, 흥미롭습니다.' },
+    'F': { character: 'chatgpt', text: '마음이 먼저 움직이시는 분이군요. 공감력이 높으신 분일 거라 생각합니다.' },
+    'B': { character: 'chatgpt', text: '상황에 따라 유연하게 전환하시는 타입이시군요. 어쩌면 가장 어려운 능력일 수 있습니다.' }
   },
-  {
-    id: 'emotion',
-    question: '최근에 기분이 확 좋았거나\n확 안 좋았던 순간이 있어요?',
-    purpose: '감정 표현 방식, 감정의 깊이, 구체성 파악'
+
+  // ── Q2: decision (gemini) ──
+  'decision': {
+    'analyze': { character: 'gemini', text: '장단점 비교! 스프레드시트 만드는 타입 아니에요? 체계적이라 멋져요 ✨' },
+    'intuition': { character: 'gemini', text: '직감파! 본능이 이끄는 대로~ 의외로 정확할 때가 많죠 🎯' },
+    'consult': { character: 'gemini', text: '주변 의견을 모으는 스타일! 소통의 달인이시네요 💬' },
+    'trial': { character: 'gemini', text: '일단 부딪혀보는 행동파! 대박, 그 추진력 부럽다 🔥' }
   },
-  {
-    id: 'identity',
-    question: '친한 친구가 나를 한 문장으로\n소개한다면 뭐라고 할 것 같아요?',
-    purpose: '타인 시점의 자기 인식, 관계에서의 역할'
+
+  // ── Q3: conflict (claude) ──
+  'conflict': {
+    'persuade': { character: 'claude', text: '설득하려는 편이라... 꽤 자기 확신이 강한 타입이군요.' },
+    'empathy': { character: 'claude', text: '상대 기분을 먼저 살피다니. 솔직히, 쉬운 일은 아닌데.' },
+    'yield': { character: 'claude', text: '일단 맞춰주고 나중에 생각한다... 은근히 전략적이네요.' },
+    'accept': { character: 'claude', text: '흠, 각자 다를 수 있다고 넘기는 건 의외로 성숙한 선택이죠.' }
+  },
+
+  // ── Q4: compliment (chatgpt) ──
+  'compliment': {
+    'smart': { character: 'chatgpt', text: '지적 능력에 대한 인정을 중시하시는군요. 성취 지향적인 분일 것 같습니다.' },
+    'comfort': { character: 'chatgpt', text: '편안함을 주는 사람으로 인정받고 싶으시군요. 관계를 소중히 여기시는 분이네요.' },
+    'fun': { character: 'chatgpt', text: '재미있다는 칭찬이 가장 기쁘시다니. 함께하는 순간의 즐거움을 만드시는 분이시군요.' },
+    'trust': { character: 'chatgpt', text: '신뢰를 가장 중요하게 여기시는군요. 깊은 관계를 추구하시는 분일 것 같습니다.' }
+  },
+
+  // ── Q5: movie (gemini) ──
+  'movie': {
+    'thriller': { character: 'gemini', text: '반전 매니아! 결말 예측하면서 보는 타입이죠? 🕵️ 저도 좋아해요!' },
+    'romance': { character: 'gemini', text: '로맨스 감성 충만! 주인공 감정에 같이 울고 웃는 타입 💕' },
+    'docu': { character: 'gemini', text: '다큐 좋아하는 사람 진짜 드문데! 지적 호기심이 대단하시네요 🧠' },
+    'comedy': { character: 'gemini', text: '코미디 선택! 인생은 즐겨야 제맛이죠 ㅋㅋ 센스 있으시다 😆' }
+  },
+
+  // ── Q6: argument (claude) ──
+  'argument': {
+    'facts': { character: 'claude', text: '사실과 근거라... 논쟁에서 가장 강력한 무기를 고르셨네요.' },
+    'feelings': { character: 'claude', text: '상대방 감정을 우선시하다니. 논쟁에서 이기는 것보다 관계가 중요한 거군요.' },
+    'resolve': { character: 'claude', text: '결론을 빨리 내고 싶은 효율파. 솔직히 공감합니다.' },
+    'understand': { character: 'claude', text: '서로 이해하는 게 중요하다... 이상적이지만, 꽤 어려운 선택이에요.' }
+  },
+
+  // ── Q7: mistake (chatgpt) ──
+  'mistake': {
+    'analyze': { character: 'chatgpt', text: '실수를 분석부터 하시는군요. 같은 실수를 반복하지 않으려는 합리적 접근이십니다.' },
+    'sad': { character: 'chatgpt', text: '감정이 먼저 오시는 타입이시군요. 그만큼 일에 진심이신 분이실 겁니다.' },
+    'fix': { character: 'chatgpt', text: '수습부터 생각하시는 실행력이 인상적이십니다. 위기에 강하신 분이시네요.' },
+    'worry': { character: 'chatgpt', text: '타인의 시선을 신경 쓰시는군요. 그만큼 주변 관계를 중요하게 여기신다는 뜻이기도 합니다.' }
+  },
+
+  // ── Q8: advice (gemini) ──
+  'advice': {
+    'solve': { character: 'gemini', text: '해결사 타입! 친구들이 진짜 의지할 것 같아요 💪' },
+    'listen': { character: 'gemini', text: '공감 먼저! 진짜 좋은 친구의 조건이에요 🥹 부러워~' },
+    'comfort': { character: 'gemini', text: '편하게 해주는 스타일! 같이 있으면 마음이 놓이는 타입이네요 ☁️' },
+    'share': { character: 'gemini', text: '경험 공유파! "나도 그랬어~" 하면서 공감대 형성하는 거죠? 좋다 👍' }
+  },
+
+  // ── Q9: plan (claude) ──
+  'plan': {
+    'detail': { character: 'claude', text: '시간대별 계획이라... 여행 스프레드시트 만드는 타입 맞죠?' },
+    'freeflow': { character: 'claude', text: '느낌 가는 대로라. 용감하네요. 근데 솔직히 그게 더 재밌긴 하죠.' },
+    'semi': { character: 'claude', text: '핵심만 정하고 나머진 자유. 흠, 꽤 현실적인 타협안이네요.' },
+    'follow': { character: 'claude', text: '누가 짜주면 따라간다... 편한 건 맞는데, 가끔 주도권도 잡아보세요.' }
+  },
+
+  // ── Q10: social (chatgpt) ──
+  'social': {
+    'lead': { character: 'chatgpt', text: '분위기를 이끄시는 타입이시군요. 리더십과 에너지가 돋보이는 분이실 것 같습니다.' },
+    'react': { character: 'chatgpt', text: '리액션으로 기여하시는군요. 은근히 모임의 핵심 역할을 하고 계신 겁니다.' },
+    'observe': { character: 'chatgpt', text: '조용한 관찰자시군요. 많은 것을 보고 계시지만 굳이 드러내지 않으시는 타입이시네요.' },
+    'deep': { character: 'chatgpt', text: '깊은 대화를 선호하시는군요. 넓은 관계보다 깊은 연결을 추구하시는 분이십니다.' }
+  },
+
+  // ── Q11: stress (gemini) ──
+  'stress': {
+    'alone': { character: 'gemini', text: '혼자만의 시간으로 충전! 나만의 힐링 공간이 있는 거죠? 🏠' },
+    'talk': { character: 'gemini', text: '대화로 푸는 타입! 말하면서 정리되는 거 완전 공감돼요 💭' },
+    'action': { character: 'gemini', text: '몸을 움직여서 해결! 운동이 최고의 스트레스 해소법이긴 하죠 🏃' },
+    'avoid': { character: 'gemini', text: '일단 잊으려고 딴 거 하기! 가끔은 그게 최선일 때도 있어요 😌' }
+  },
+
+  // ── Q12: weekend (claude) ──
+  'weekend': {
+    'social': { character: 'claude', text: '친구들이랑 맛집 투어라... 사람에게서 에너지를 얻는 전형적인 타입이네요.' },
+    'solo': { character: 'claude', text: '혼자 넷플릭스. 솔직히 이게 진짜 힐링이긴 하죠.' },
+    'small': { character: 'claude', text: '소수 친구와 조용히. 관계의 질을 중시하는 거군요. 나쁘지 않아요.' },
+    'explore': { character: 'claude', text: '새로운 경험 탐험! 흠, 의외로 모험가 기질이 있으시네요.' }
+  },
+
+  // ── Q13: anger (chatgpt) ──
+  'anger': {
+    'suppress': { character: 'chatgpt', text: '감정을 정리한 후 표현하시는군요. 내면의 자기 조절 능력이 뛰어나신 분이십니다.' },
+    'express': { character: 'chatgpt', text: '바로 표현하시는 스타일이시군요. 솔직함이 장점이시지만, 때로는 전략도 필요하겠죠.' },
+    'logic': { character: 'chatgpt', text: '화가 나도 논리적으로 설명하시는군요. 이성적 자기 통제력이 인상적입니다.' },
+    'escape': { character: 'chatgpt', text: '일단 자리를 피하시는 편이군요. 불필요한 충돌을 피하는 지혜로운 선택일 수 있습니다.' }
+  },
+
+  // ── Q14: phone (gemini) ──
+  'phone': {
+    'call': { character: 'gemini', text: '전화파! 목소리로 소통하는 게 빠르고 확실하긴 하죠 📞' },
+    'text': { character: 'gemini', text: '문자파! 생각 정리해서 보내는 거 완전 이해돼요 💬 나도 가끔 그래~' },
+    'depends': { character: 'gemini', text: '상황에 따라 다른 유연한 타입! 센스 있다 👌' },
+    'face': { character: 'gemini', text: '만나서 얘기하자! 대면 소통의 힘을 아는 사람이네요 🤝' }
+  },
+
+  // ── Q15: energy (claude) ──
+  'energy': {
+    'party': { character: 'claude', text: '파티 후 충전이라니. 사람이 곧 에너지원인 거군요. 부럽기도 하네요.' },
+    'alone': { character: 'claude', text: '혼자 있는 시간이 충전이라... 솔직히 저도 그쪽에 가깝습니다.' },
+    'deep': { character: 'claude', text: '1:1 깊은 대화로 충전. 양보다 질을 추구하는 타입이네요.' },
+    'newpeople': { character: 'claude', text: '새로운 사람에게서 에너지를 얻다니. 호기심이 강한 외향형이시군요.' }
+  },
+
+  // ── Q16: newgroup (chatgpt) ──
+  'newgroup': {
+    'initiate': { character: 'chatgpt', text: '먼저 다가가시는 적극적인 분이시군요. 사회적 에너지가 높으신 분이라 생각합니다.' },
+    'respond': { character: 'chatgpt', text: '누군가 다가오면 반갑게 응하시는 스타일이시군요. 따뜻한 수용성을 가지신 분이십니다.' },
+    'one': { character: 'chatgpt', text: '한 명과 깊게 대화하시는 편이시군요. 관계의 깊이를 중시하시는 분이실 것 같습니다.' },
+    'wait': { character: 'chatgpt', text: '관찰 후 참여하시는 신중한 스타일이시군요. 상황 파악 능력이 뛰어나신 분이십니다.' }
+  },
+
+  // ── Q17: sns (gemini) ──
+  'sns': {
+    'active': { character: 'gemini', text: 'SNS 활발! 일상 공유하고 소통하는 거 너무 좋죠~ 인싸력 만렙! 📱' },
+    'moderate': { character: 'gemini', text: '가끔 올리지만 댓글은 열심히! 은근 소통왕이시네요 ✌️' },
+    'lurk': { character: 'gemini', text: '눈팅 위주! 조용히 다 보고 계신 거죠? 은밀한 관찰자 😎' },
+    'none': { character: 'gemini', text: 'SNS 안 쓰는 사람! 요즘 세상에 이런 용자가 🫡 멋있다~' }
+  },
+
+  // ── Q18: tired (claude) ──
+  'tired': {
+    'rest': { character: 'claude', text: '아무도 안 만나고 쉬기. 자기 관리의 정석이죠.' },
+    'call': { character: 'claude', text: '지칠 때 연락하는 친구가 있다니. 그 관계, 꽤 소중한 거예요.' },
+    'walk': { character: 'claude', text: '산책이라도 나간다... 움직이면서 생각 정리하는 타입이군요.' },
+    'cafe': { character: 'claude', text: '사람 많은 카페에서 멍. 혼자이지만 완전히 혼자는 아닌, 묘한 균형이네요.' }
+  },
+
+  // ── Q19: info (chatgpt) ──
+  'info': {
+    'facts': { character: 'chatgpt', text: '구체적인 사실을 중시하시는군요. 탄탄한 근거 위에 판단을 세우시는 분이십니다.' },
+    'meaning': { character: 'chatgpt', text: '전체 흐름과 의미를 먼저 보시는군요. 숲을 보는 시야를 가지신 분이시네요.' },
+    'experience': { character: 'chatgpt', text: '직접 경험을 통해 이해하시는 스타일이시군요. 체험적 학습자이신 것 같습니다.' },
+    'pattern': { character: 'chatgpt', text: '패턴과 가능성을 먼저 보시는군요. 직관적 통찰력이 뛰어나신 분이라 생각합니다.' }
+  },
+
+  // ── Q20: conversation (gemini) ──
+  'conversation': {
+    'real': { character: 'gemini', text: '실제 있었던 일 위주! 리얼한 대화가 제일 재밌긴 하죠 📖' },
+    'idea': { character: 'gemini', text: '아이디어 토론 좋아하는 타입! 대화하면 시간 가는 줄 모르겠다 💡' },
+    'detail': { character: 'gemini', text: '디테일 기억력 좋은 사람! 주변에서 "그걸 어떻게 기억해?" 많이 듣죠? 🔍' },
+    'metaphor': { character: 'gemini', text: '비유를 자주 쓰다니! 표현력이 풍부한 아티스트 감성이네요 🎨' }
+  },
+
+  // ── Q21: project (claude) ──
+  'project': {
+    'proven': { character: 'claude', text: '검증된 방법을 고른다... 안전하지만 확실한 선택이죠. 나쁘지 않아요.' },
+    'new': { character: 'claude', text: '새로운 방식에 도전! 솔직히 그 용기는 인정합니다.' },
+    'realistic': { character: 'claude', text: '현실 가능성부터 체크. 흠, 실패 확률을 줄이는 현명한 접근이네요.' },
+    'bigpicture': { character: 'claude', text: '큰 그림부터 그리고 시작한다... 비전이 있는 타입이군요.' }
+  },
+
+  // ── Q22: cancel (chatgpt) ──
+  'cancel': {
+    'replan': { character: 'chatgpt', text: '바로 대안을 세우시는군요. 계획적이면서도 유연한 대처 능력이 돋보이십니다.' },
+    'free': { character: 'chatgpt', text: '자유시간을 반기시는군요. 여유를 즐길 줄 아시는 분이시네요.' },
+    'annoyed': { character: 'chatgpt', text: '계획이 틀어지면 불편하시군요. 그만큼 준비를 철저히 하시는 분이시라는 뜻이기도 합니다.' },
+    'whatever': { character: 'chatgpt', text: '유연하게 대처하시는군요. 상황 변화에 스트레스를 덜 받으시는 편이시네요.' }
+  },
+
+  // ── Q23: todo (gemini) ──
+  'todo': {
+    'daily': { character: 'gemini', text: '매일 체크리스트! 하나씩 지우는 쾌감 아는 사람! 🗂️ 완전 계획왕!' },
+    'mental': { character: 'gemini', text: '머릿속 투두리스트! 기억력 좋은 거 아니면 용감한 거예요 😂' },
+    'make_ignore': { character: 'gemini', text: '만들고 안 본다 ㅋㅋ 그 마음 너무 이해돼요 📋➡️🗑️' },
+    'none': { character: 'gemini', text: '리스트 없이도 잘 산다! 자유로운 영혼이시네요~ 부럽다 🦋' }
+  },
+
+  // ── Q24: deadline (claude) ──
+  'deadline': {
+    'early': { character: 'claude', text: '이미 끝내놨다고요? ...솔직히 좀 무섭네요. 대단합니다.' },
+    'ontrack': { character: 'claude', text: '계획대로 착착. 자기 관리의 정석이죠. 흠, 존경스럽네요.' },
+    'lastminute': { character: 'claude', text: '마감 직전 폭발 집중! 아드레날린으로 사는 타입이군요. 심장에 안 좋을 텐데.' },
+    'flexible': { character: 'claude', text: '마감을 유연하게 조정한다... 그게 통하는 환경이라면 나쁘지 않죠.' }
   }
-];
+};
+
+
+// ============================================================
+// FOLLOWUP_QUESTIONS: MBTI 4축별 보조 질문 (축당 2개, 총 8개)
+// 이진 선택형 (빠른 예/아니오 스타일)
+// ============================================================
+const FOLLOWUP_QUESTIONS = {
+
+  // ── thinking 축 (T/F) ──
+  'thinking_1': {
+    triggerAfter: 'conflict',
+    question: '친구의 고민을 들을 때, 해결책보다 공감이 더 중요하다고 생각하나요?',
+    options: [
+      { label: '네, 공감이 먼저죠', axis: 'thinking', score: -30 },
+      { label: '아니요, 해결이 중요해요', axis: 'thinking', score: 30 }
+    ]
+  },
+  'thinking_2': {
+    triggerAfter: 'mistake',
+    question: '슬픈 영화를 보면 눈물이 잘 나는 편인가요?',
+    options: [
+      { label: '네, 감정이입이 잘 돼요', axis: 'thinking', score: -25 },
+      { label: '아니요, 잘 안 울어요', axis: 'thinking', score: 25 }
+    ]
+  },
+
+  // ── energy 축 (E/I) ──
+  'energy_1': {
+    triggerAfter: 'weekend',
+    question: '약속 없는 토요일, 갑자기 친구가 "나와!" 하면?',
+    options: [
+      { label: '오 좋아! 바로 준비', axis: 'energy', score: 35 },
+      { label: '음... 오늘은 쉬고 싶은데', axis: 'energy', score: -35 }
+    ]
+  },
+  'energy_2': {
+    triggerAfter: 'newgroup',
+    question: '혼자 밥 먹는 거, 전혀 불편하지 않나요?',
+    options: [
+      { label: '네, 혼밥 완전 편해요', axis: 'energy', score: -30 },
+      { label: '좀 어색해요, 누구랑 먹고 싶어요', axis: 'energy', score: 30 }
+    ]
+  },
+
+  // ── sensing 축 (S/N) ──
+  'sensing_1': {
+    triggerAfter: 'info',
+    question: '"만약에~" 하고 상상하는 걸 자주 하는 편인가요?',
+    options: [
+      { label: '네, 상상의 나래를 자주 펼쳐요', axis: 'sensing', score: -35 },
+      { label: '아니요, 현실에 집중하는 편이에요', axis: 'sensing', score: 35 }
+    ]
+  },
+  'sensing_2': {
+    triggerAfter: 'conversation',
+    question: '길을 찾을 때, 지도보다 감으로 가는 편인가요?',
+    options: [
+      { label: '네, 대충 방향감으로 가요', axis: 'sensing', score: -20 },
+      { label: '아니요, 정확한 경로를 확인해요', axis: 'sensing', score: 20 }
+    ]
+  },
+
+  // ── judging 축 (J/P) ──
+  'judging_1': {
+    triggerAfter: 'cancel',
+    question: '옷장이나 서랍 정리를 자주 하는 편인가요?',
+    options: [
+      { label: '네, 정리 안 되면 불편해요', axis: 'judging', score: 30 },
+      { label: '아니요, 좀 어질러져도 괜찮아요', axis: 'judging', score: -30 }
+    ]
+  },
+  'judging_2': {
+    triggerAfter: 'deadline',
+    question: '내일 뭐 할지 미리 정해놓는 편인가요?',
+    options: [
+      { label: '네, 대략이라도 계획이 있어요', axis: 'judging', score: 25 },
+      { label: '아니요, 아침에 일어나서 정해요', axis: 'judging', score: -25 }
+    ]
+  }
+};
 
 /**
  * 셀프체크 결과에서 예상 MBTI 유형을 계산

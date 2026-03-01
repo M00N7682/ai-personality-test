@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>AI 토론회: 당신의 성격은?</title>
+  <title>AI가 예측하는 내 MBTI</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
@@ -12,15 +12,15 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6954281467005157" crossorigin="anonymous"></script>
 
   <!-- OG Tags -->
-  <meta property="og:title" content="AI 토론회: 나의 성격 분석">
-  <meta property="og:description" content="ChatGPT, Gemini, Claude가 토론해서 알려주는 나의 진짜 성격">
+  <meta property="og:title" content="AI가 예측하는 내 MBTI">
+  <meta property="og:description" content="ChatGPT, Gemini, Claude AI 3인방이 예측하는 나의 진짜 MBTI">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://ai-debate.ddstudio.co.kr/assets/og-image.png">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="AI 토론회: 나의 성격 분석">
-  <meta name="twitter:description" content="ChatGPT, Gemini, Claude가 토론해서 알려주는 나의 진짜 성격">
+  <meta name="twitter:title" content="AI가 예측하는 내 MBTI">
+  <meta name="twitter:description" content="ChatGPT, Gemini, Claude AI 3인방이 예측하는 나의 진짜 MBTI">
 
   <!-- Pretendard Font -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
@@ -38,27 +38,27 @@
         <div class="logo-area">
           <div class="ai-avatars-row">
             <div class="ai-avatar-badge chatgpt-badge">
-              <img src="assets/chatgpt-avatar.svg" alt="ChatGPT">
+              <img src="assets/chatgpt-avatar.png" alt="ChatGPT">
             </div>
             <div class="ai-avatar-badge gemini-badge">
-              <img src="assets/gemini-avatar.svg" alt="Gemini">
+              <img src="assets/gemini-avatar.png" alt="Gemini">
             </div>
             <div class="ai-avatar-badge claude-badge">
-              <img src="assets/claude-avatar.svg" alt="Claude">
+              <img src="assets/claude-avatar.png" alt="Claude">
             </div>
           </div>
-          <h1 class="main-title">AI 토론회</h1>
-          <p class="sub-title">당신의 성격은?</p>
+          <h1 class="main-title">AI MBTI 예측</h1>
+          <p class="sub-title">당신의 MBTI는?</p>
         </div>
         <p class="description">
           ChatGPT, Gemini, Claude가<br>
-          당신의 글을 읽고 <strong>토론</strong>합니다.
+          당신을 분석하고 <strong>MBTI를 예측</strong>합니다.
         </p>
         <p class="description-small">
-          AI 3인방이 밝혀내는 당신의 진짜 성격
+          AI 3인방이 예측하는 나의 진짜 MBTI
         </p>
         <button class="btn-primary" id="btn-start">시작하기</button>
-        <p class="footer-note">30초면 끝! 비용 0원</p>
+        <p class="footer-note">1분이면 끝! 비용 0원</p>
       </div>
     </section>
 
@@ -67,7 +67,6 @@
       <div class="screen-content">
         <div class="step-indicator">
           <div class="step-dot active"></div>
-          <div class="step-dot"></div>
           <div class="step-dot"></div>
           <div class="step-dot"></div>
           <div class="step-dot"></div>
@@ -82,68 +81,58 @@
       </div>
     </section>
 
-    <!-- Screen 3: 셀프 체크 (객관식) -->
+    <!-- Screen 3: 셀프 체크 (객관식) + AI 코멘트 -->
     <section id="screen-selfcheck" class="screen">
-      <div class="screen-content">
+      <div class="screen-content selfcheck-content">
         <div class="step-indicator">
           <div class="step-dot done"></div>
           <div class="step-dot active"></div>
           <div class="step-dot"></div>
           <div class="step-dot"></div>
-          <div class="step-dot"></div>
         </div>
-        <p class="question-progress" id="selfcheck-progress">1 / 3</p>
+        <p class="question-progress" id="selfcheck-progress">1 / 24</p>
         <h2 class="screen-title" id="selfcheck-question"></h2>
         <div class="options-list" id="selfcheck-options"></div>
-      </div>
-    </section>
 
-    <!-- Screen 4: 주관식 질문 -->
-    <section id="screen-essay" class="screen">
-      <div class="screen-content">
-        <div class="step-indicator">
-          <div class="step-dot done"></div>
-          <div class="step-dot done"></div>
-          <div class="step-dot active"></div>
-          <div class="step-dot"></div>
-          <div class="step-dot"></div>
-        </div>
-        <p class="question-progress" id="essay-progress">1 / 3</p>
-        <h2 class="screen-title" id="essay-question"></h2>
-        <div class="textarea-wrap">
-          <textarea id="essay-input" class="text-area" placeholder="자유롭게 적어주세요..." maxlength="500" rows="5"></textarea>
-          <div class="textarea-footer">
-            <span class="char-status" id="essay-char-status">최소 20자</span>
-            <span class="char-count"><span id="essay-count">0</span>/500</span>
+        <!-- AI 코멘트 버블 -->
+        <div class="ai-comment-area" id="ai-comment-area" style="display:none;">
+          <div class="ai-comment-bubble">
+            <img class="ai-comment-avatar" id="ai-comment-avatar" src="" alt="">
+            <div class="ai-comment-text" id="ai-comment-text"></div>
           </div>
         </div>
-        <button class="btn-primary" id="btn-essay-next" disabled>다음</button>
+
+        <!-- 꼬리질문 (2지선다) -->
+        <div class="followup-area" id="followup-area" style="display:none;">
+          <p class="followup-question" id="followup-question"></p>
+          <div class="followup-options" id="followup-options"></div>
+        </div>
       </div>
     </section>
 
-    <!-- Screen 5: 분석 중 (로딩 연출) -->
+    <!-- Screen 4: 분석 중 (로딩 연출) -->
     <section id="screen-loading" class="screen">
       <div class="screen-content loading-content">
         <div class="loading-spinner">
           <div class="spinner-ring"></div>
         </div>
-        <p class="loading-text" id="loading-text">AI들이 당신의 글을 읽고 있습니다...</p>
+        <p class="loading-text" id="loading-text">AI들이 MBTI를 예측하고 있습니다...</p>
         <div class="loading-progress">
           <div class="loading-bar" id="loading-bar"></div>
         </div>
         <div class="loading-agents">
           <div class="agent-status" id="agent-chatgpt">
-            <img src="assets/chatgpt-avatar.svg" alt="" class="agent-icon">
+            <img src="assets/chatgpt-avatar.png" alt="" class="agent-icon">
             <span>ChatGPT</span>
             <span class="agent-state" id="state-chatgpt">대기중</span>
           </div>
           <div class="agent-status" id="agent-gemini">
-            <img src="assets/gemini-avatar.svg" alt="" class="agent-icon">
+            <img src="assets/gemini-avatar.png" alt="" class="agent-icon">
             <span>Gemini</span>
             <span class="agent-state" id="state-gemini">대기중</span>
           </div>
           <div class="agent-status" id="agent-claude">
-            <img src="assets/claude-avatar.svg" alt="" class="agent-icon">
+            <img src="assets/claude-avatar.png" alt="" class="agent-icon">
             <span>Claude</span>
             <span class="agent-state" id="state-claude">대기중</span>
           </div>
@@ -151,11 +140,11 @@
       </div>
     </section>
 
-    <!-- Screen 6: AI 토론 결과 (채팅 형식) -->
+    <!-- Screen 5: AI 토론 결과 (채팅 형식) -->
     <section id="screen-debate" class="screen">
       <div class="screen-content debate-content">
         <div class="debate-header">
-          <h2>AI 토론 결과</h2>
+          <h2>AI MBTI 예측 결과</h2>
           <p class="debate-sub" id="debate-sub"></p>
         </div>
         <div class="chat-container" id="chat-container"></div>
@@ -165,14 +154,14 @@
       </div>
     </section>
 
-    <!-- Screen 7: 최종 결과 카드 -->
+    <!-- Screen 6: 최종 결과 카드 -->
     <section id="screen-result" class="screen">
       <div class="screen-content result-content">
         <!-- 결과 카드 (캡쳐용 + 표시용) -->
         <div class="result-card" id="result-card">
           <div class="result-card-header" data-tier="free">
-            <p class="result-card-label">AI 토론회</p>
-            <p class="result-card-name"><span id="result-name"></span>님의 성격 분석</p>
+            <p class="result-card-label">AI MBTI 예측</p>
+            <p class="result-card-name"><span id="result-name"></span>님의 MBTI 분석</p>
           </div>
 
           <div class="mbti-badge-wrap">
@@ -220,9 +209,24 @@
             <p class="detail-text" id="funfact-text"></p>
           </div>
 
-          <div class="detail-block warning-block">
-            <p class="detail-label">한마디 조언</p>
-            <p class="detail-text" id="warning-text"></p>
+          <div class="detail-block cognitive-block">
+            <p class="detail-label">인지 기능 스택</p>
+            <p class="detail-text" id="cognitive-text"></p>
+          </div>
+
+          <div class="detail-block famous-block">
+            <p class="detail-label">같은 유형 유명인</p>
+            <div class="famous-tags" id="famous-tags"></div>
+          </div>
+
+          <div class="detail-block communication-block">
+            <p class="detail-label">소통 스타일</p>
+            <p class="detail-text" id="communication-text"></p>
+          </div>
+
+          <div class="detail-block stress-block">
+            <p class="detail-label">스트레스 반응</p>
+            <p class="detail-text" id="stress-text"></p>
           </div>
 
           <div class="detail-block strengths-block">
@@ -296,7 +300,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <!-- App Scripts -->
-  <script src="js/keywords.js"></script>
   <script src="js/questions.js"></script>
   <script src="js/analyzer.js"></script>
   <script src="js/dialogues.js"></script>
