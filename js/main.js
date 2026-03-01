@@ -58,13 +58,13 @@ const TESTS = [
   },
   {
     id: 'saju-job',
-    title: '사주로 직업 보기',
-    subtitle: '생년월일로 보는 천직',
+    title: '점성술 연애운',
+    subtitle: '생년월일시로 보는 연애 운명',
     emoji: '🔮',
     color: '#8B5CF6',
     participants: 9800,
     duration: '1분',
-    isNew: false,
+    isNew: true,
     isHot: true,
     ready: true,
     url: '/tests/saju-job/'

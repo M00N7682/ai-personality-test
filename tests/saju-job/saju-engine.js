@@ -1,5 +1,5 @@
 /**
- * 사주로 직업 봐주기 - 커스텀 엔진
+ * 점성술 연애운 - 커스텀 엔진
  * 연애.zip
  */
 (function () {
@@ -69,7 +69,6 @@
   }
 
   function calculateElements(result) {
-    // Use the pre-defined elements from the result data
     return {
       wood: result.elements[0],
       fire: result.elements[1],
@@ -104,9 +103,8 @@
 
   /* ========== Input Screen ========== */
   function renderInput() {
-    // Generate year options 1990-2010
     let yearOpts = '<option value="" disabled selected>년도</option>';
-    for (let y = 2010; y >= 1990; y--) {
+    for (let y = 2025; y >= 1990; y--) {
       yearOpts += `<option value="${y}">${y}년</option>`;
     }
 
@@ -133,8 +131,8 @@
           <span class="bh-accent">연애</span><span class="bh-zip">.zip</span>
         </a>
 
-        <h2 class="input-title">생년월일을 알려주세요</h2>
-        <p class="input-subtitle">사주팔자를 분석할게요</p>
+        <h2 class="input-title">생년월일을 알려줘</h2>
+        <p class="input-subtitle">별자리 배치를 분석할게</p>
 
         <div class="input-group">
           <span class="input-label">생년월일</span>
@@ -163,7 +161,7 @@
           </div>
         </div>
 
-        <button class="btn-analyze" id="btn-analyze">사주 분석하기</button>
+        <button class="btn-analyze" id="btn-analyze">연애운 분석하기</button>
       </div>
     `;
 
@@ -261,12 +259,14 @@
     const r = calculateResult();
     const elements = calculateElements(r);
 
+    const MONTH_LABELS = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+
     const ohengData = [
-      { name: '목(木)', cls: 'wood', value: elements.wood },
-      { name: '화(火)', cls: 'fire', value: elements.fire },
-      { name: '토(土)', cls: 'earth', value: elements.earth },
-      { name: '금(金)', cls: 'metal', value: elements.metal },
-      { name: '수(水)', cls: 'water', value: elements.water }
+      { name: '목(木)', cls: 'wood', value: elements.wood, label: '성장·새 시작' },
+      { name: '화(火)', cls: 'fire', value: elements.fire, label: '열정·설렘' },
+      { name: '토(土)', cls: 'earth', value: elements.earth, label: '안정·신뢰' },
+      { name: '금(金)', cls: 'metal', value: elements.metal, label: '매력·카리스마' },
+      { name: '수(水)', cls: 'water', value: elements.water, label: '감성·직감' }
     ];
 
     const ohengHTML = ohengData.map(o => `
@@ -277,15 +277,30 @@
         </div>
         <span class="oheng-value">${o.value}%</span>
       </div>
+      <div class="oheng-desc">${o.label}</div>
     `).join('');
-
-    const jobsHTML = r.jobs.map((j, i) => `
-      <li><span class="job-rank">${i + 1}순위</span>${j}</li>
-    `).join('');
-
-    const avoidHTML = r.avoidJobs.map(j => `<span class="avoid-tag">${j}</span>`).join('');
 
     const keywordsHTML = r.keywords.map(k => `<span class="result-tag">#${k}</span>`).join('');
+
+    const luckyHTML = r.luckyItems.map(item => `<span class="lucky-tag">${item}</span>`).join('');
+
+    // Monthly forecast bar chart
+    const currentMonth = new Date().getMonth(); // 0-indexed
+    const monthlyHTML = r.monthlyForecast.map((text, i) => {
+      // Generate a "romance score" from text length hash for visual bar
+      const score = 40 + ((text.length * 7 + i * 13) % 55);
+      const isCurrent = i === currentMonth;
+      return `
+        <div class="monthly-row ${isCurrent ? 'current-month' : ''}">
+          <span class="monthly-label">${MONTH_LABELS[i]}</span>
+          <div class="monthly-bar-bg">
+            <div class="monthly-bar-fill" data-value="${score}" style="width:0%"></div>
+          </div>
+          <span class="monthly-score">${score}점</span>
+        </div>
+        <div class="monthly-text ${isCurrent ? 'current-month-text' : ''}">${text}</div>
+      `;
+    }).join('');
 
     app.innerHTML = `
       <div class="test-screen result-screen">
@@ -295,44 +310,58 @@
 
         <div class="result-card" id="result-card">
           <div class="result-card-inner">
+            <span class="result-emoji">${r.emoji}</span>
             <h2 class="result-name">${r.name}</h2>
             <p class="result-desc">${r.description}</p>
             <div class="result-tags">${keywordsHTML}</div>
-            <div class="result-footer">연애.zip | 사주 직업 분석</div>
+            <div class="result-footer">연애.zip | 점성술 연애운</div>
           </div>
         </div>
 
         <div class="result-detail">
-          <div class="detail-section">
-            <h3>오행 분석</h3>
-            <div class="oheng-chart">${ohengHTML}</div>
-          </div>
 
           <div class="detail-section">
-            <h3>타고난 기질</h3>
-            <div class="result-tags" style="justify-content:flex-start">${keywordsHTML}</div>
-          </div>
-
-          <div class="detail-section">
-            <h3>어울리는 직업 TOP 5</h3>
-            <ul class="jobs-list">${jobsHTML}</ul>
-          </div>
-
-          <div class="detail-section">
-            <h3>피해야 할 직업 유형</h3>
-            <div class="avoid-jobs">${avoidHTML}</div>
-          </div>
-
-          <div class="detail-section">
-            <h3>올해의 직업운</h3>
-            <div class="forecast-box">
-              <p class="forecast-year">2026년</p>
-              <p class="forecast-text">${r.yearForecast}</p>
+            <h3>연애 스타일</h3>
+            <div class="love-style-box">
+              <p class="love-style-text">${r.loveStyle}</p>
             </div>
           </div>
 
           <div class="detail-section">
-            <h3>같은 사주 유명인</h3>
+            <h3>연애 오행 분석</h3>
+            <p class="section-sub">너의 연애 에너지 구성</p>
+            <div class="oheng-chart">${ohengHTML}</div>
+          </div>
+
+          <div class="detail-section">
+            <h3>이상형 특징</h3>
+            <div class="ideal-box">
+              <span class="ideal-icon">💘</span>
+              <p class="ideal-text">${r.idealPartner}</p>
+            </div>
+          </div>
+
+          <div class="detail-section">
+            <h3>연애 위험 신호</h3>
+            <div class="danger-box">
+              <span class="danger-icon">⚠️</span>
+              <p class="danger-text">${r.dangerSignal}</p>
+            </div>
+          </div>
+
+          <div class="detail-section">
+            <h3>2026 월별 연애운</h3>
+            <p class="section-sub">이번 달엔 어떤 운명이 기다리고 있을까?</p>
+            <div class="monthly-chart">${monthlyHTML}</div>
+          </div>
+
+          <div class="detail-section">
+            <h3>연애 럭키 아이템</h3>
+            <div class="lucky-items">${luckyHTML}</div>
+          </div>
+
+          <div class="detail-section">
+            <h3>같은 연애 스타일 유명인</h3>
             <div class="celebrity-box">
               <span class="celebrity-icon">★</span>
               <div class="celebrity-info">
@@ -361,13 +390,20 @@
       });
     }, 100);
 
+    // Animate monthly bars
+    setTimeout(() => {
+      document.querySelectorAll('.monthly-bar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.value + '%';
+      });
+    }, 300);
+
     // Share handlers
     document.getElementById('btn-share').addEventListener('click', async () => {
       if (navigator.share) {
         try {
           await navigator.share({
             title: config.title + ' - 연애.zip',
-            text: `나의 사주 직업 유형: ${r.name}`,
+            text: `나의 연애 유형: ${r.name} ${r.emoji}`,
             url: location.href
           });
         } catch (e) { /* cancelled */ }

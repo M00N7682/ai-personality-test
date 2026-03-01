@@ -242,7 +242,28 @@
       line-height: 1.6;
     }
 
+    /* ========== Love Style Box ========== */
+    .love-style-box {
+      padding: 16px;
+      background: linear-gradient(135deg, #FFF5F7, #F0E8FF);
+      border-radius: var(--radius-md);
+    }
+
+    .love-style-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-primary);
+    }
+
     /* ========== Monthly Chart ========== */
+    .chart-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 8px;
+      margin-top: -4px;
+    }
+
     .monthly-chart {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
@@ -259,12 +280,27 @@
       gap: 4px;
       height: 100%;
       justify-content: flex-end;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .month-col:active {
+      transform: scale(0.92);
+    }
+
+    .month-col.active .month-bar {
+      box-shadow: 0 0 8px rgba(255, 107, 157, 0.5);
+    }
+
+    .month-col.active .month-label {
+      color: var(--accent-pink);
+      font-weight: 800;
     }
 
     .month-bar {
       width: 100%;
       border-radius: 4px 4px 0 0;
-      transition: height 0.6s ease;
+      transition: height 0.6s ease, box-shadow 0.2s ease;
       min-height: 4px;
     }
 
@@ -284,6 +320,54 @@
       font-size: 10px;
       color: var(--text-muted);
       font-weight: 600;
+      transition: color 0.2s, font-weight 0.2s;
+    }
+
+    /* ========== Month Detail Box ========== */
+    .month-detail-box {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease, margin-top 0.35s ease;
+      background: linear-gradient(135deg, rgba(255,107,157,0.08), rgba(192,132,252,0.08));
+      border-radius: var(--radius-md);
+      border: 1.5px solid transparent;
+      padding: 0 14px;
+      margin-top: 0;
+    }
+
+    .month-detail-box.show {
+      max-height: 200px;
+      padding: 14px;
+      margin-top: 12px;
+      border-color: rgba(255,107,157,0.2);
+    }
+
+    .month-detail-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .month-detail-label {
+      font-size: 14px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .month-detail-score {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-purple);
+    }
+
+    .month-detail-text {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--text-primary);
     }
 
     /* ========== Love score circle ========== */
@@ -436,6 +520,55 @@
       padding: 16px;
       background: linear-gradient(135deg, #FFF5F7, #F0E8FF);
       border-radius: var(--radius-md);
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-primary);
+    }
+
+    /* ========== Date Ideas ========== */
+    .date-ideas-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .date-ideas-list li {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      padding: 12px 14px 12px 40px;
+      background: linear-gradient(135deg, rgba(255,182,193,0.1), rgba(216,191,255,0.1));
+      border: 1px solid rgba(255,107,157,0.12);
+      border-radius: var(--radius-sm);
+      position: relative;
+    }
+
+    .date-ideas-list li .date-idea-num {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ========== Makeup Tip ========== */
+    .makeup-tip-box {
+      padding: 16px;
+      background: linear-gradient(135deg, #FFF0F5, #F5F0FF);
+      border-radius: var(--radius-md);
+      border-left: 3px solid var(--accent-pink);
+    }
+
+    .makeup-tip-text {
       font-size: 14px;
       line-height: 1.7;
       color: var(--text-primary);

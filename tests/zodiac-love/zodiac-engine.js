@@ -269,7 +269,7 @@
       if (score >= 85) cls = 'high';
       else if (score >= 70) cls = 'medium';
       return `
-        <div class="month-col">
+        <div class="month-col" data-month="${i}">
           <div class="month-bar ${cls}" data-height="${heightPct}" style="height: 0%"></div>
           <span class="month-label">${monthNames[i]}</span>
         </div>
@@ -313,8 +313,24 @@
 
         <div class="result-detail">
           <div class="detail-section">
+            <h3>연애 스타일 분석</h3>
+            <div class="love-style-box">
+              <p class="love-style-text">${solo.loveStyle}</p>
+            </div>
+          </div>
+
+          <div class="detail-section">
             <h3>월별 연애운</h3>
-            <div class="monthly-chart">${monthlyHTML}</div>
+            <p class="chart-hint">월을 탭하면 상세 운세를 볼 수 있어</p>
+            <div class="monthly-chart" id="monthly-chart">${monthlyHTML}</div>
+            <div class="month-detail-box" id="month-detail-box"></div>
+          </div>
+
+          <div class="detail-section">
+            <h3>올해 만날 인연</h3>
+            <div class="destiny-box">
+              <p class="destiny-text">${solo.destinyTraits}</p>
+            </div>
           </div>
 
           <div class="detail-section">
@@ -323,14 +339,7 @@
           </div>
 
           <div class="detail-section">
-            <h3>올해 만날 인연의 특징</h3>
-            <div class="destiny-box">
-              <p class="destiny-text">${solo.destinyTraits}</p>
-            </div>
-          </div>
-
-          <div class="detail-section">
-            <h3>연애운을 올리는 행동</h3>
+            <h3>연애 꿀팁</h3>
             <ul class="tips-list">${tipsHTML}</ul>
           </div>
         </div>
@@ -346,8 +355,56 @@
       </div>
     `;
 
+    // Monthly bar tap interaction
+    bindMonthlyChart(solo);
     animateResults();
     bindResultButtons(s.name + ' 연애운');
+  }
+
+  /* ========== Monthly Chart Interaction ========== */
+  function bindMonthlyChart(solo) {
+    const chart = document.getElementById('monthly-chart');
+    const detailBox = document.getElementById('month-detail-box');
+    if (!chart || !detailBox) return;
+
+    let activeMonth = -1;
+
+    chart.querySelectorAll('.month-col').forEach(col => {
+      col.addEventListener('click', () => {
+        const monthIdx = parseInt(col.dataset.month);
+
+        // Toggle off if tapping same month
+        if (activeMonth === monthIdx) {
+          activeMonth = -1;
+          detailBox.classList.remove('show');
+          detailBox.innerHTML = '';
+          chart.querySelectorAll('.month-col').forEach(c => c.classList.remove('active'));
+          return;
+        }
+
+        activeMonth = monthIdx;
+        chart.querySelectorAll('.month-col').forEach(c => c.classList.remove('active'));
+        col.classList.add('active');
+
+        const monthText = solo.bestMonths[monthIdx];
+        // Strip the "N월: " prefix since we show it in the label
+        const detailText = monthText.replace(/^\d{1,2}월:\s*/, '');
+        const score = solo.monthlyScores[monthIdx];
+        let scoreEmoji = '';
+        if (score >= 85) scoreEmoji = '🔥';
+        else if (score >= 70) scoreEmoji = '✨';
+        else scoreEmoji = '💫';
+
+        detailBox.innerHTML = `
+          <div class="month-detail-header">
+            <span class="month-detail-label">${monthIdx + 1}월 연애운 ${scoreEmoji}</span>
+            <span class="month-detail-score">${score}점</span>
+          </div>
+          <p class="month-detail-text">${detailText}</p>
+        `;
+        detailBox.classList.add('show');
+      });
+    });
   }
 
   /* ========== Couple Result ========== */
@@ -361,6 +418,10 @@
 
     const goodHTML = details.goodPoints.map(p => `<li>${p}</li>`).join('');
     const badHTML = details.badPoints.map(p => `<li>${p}</li>`).join('');
+
+    const dateIdeasHTML = (details.dateIdeas || []).map((idea, i) => `
+      <li><span class="date-idea-num">${i + 1}</span>${idea}</li>
+    `).join('');
 
     app.innerHTML = `
       <div class="test-screen result-screen">
@@ -410,6 +471,18 @@
           <div class="detail-section">
             <h3>이 조합의 연애 패턴</h3>
             <div class="scenario-box">${details.scenario}</div>
+          </div>
+
+          <div class="detail-section">
+            <h3>데이트 추천</h3>
+            <ul class="date-ideas-list">${dateIdeasHTML}</ul>
+          </div>
+
+          <div class="detail-section">
+            <h3>싸울 때 화해법</h3>
+            <div class="makeup-tip-box">
+              <p class="makeup-tip-text">${details.makeUpTip || ''}</p>
+            </div>
           </div>
 
           <div class="detail-section">

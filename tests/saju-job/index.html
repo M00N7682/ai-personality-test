@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>사주로 직업 봐주기 - 연애.zip</title>
+  <title>점성술 연애운 - 연애.zip</title>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-  <meta property="og:title" content="사주로 직업 봐주기 - 연애.zip">
-  <meta property="og:description" content="태어난 날로 알아보는 나의 천직은?">
+  <meta property="og:title" content="점성술 연애운 - 연애.zip">
+  <meta property="og:description" content="생년월일시로 보는 나의 연애 운명은?">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
@@ -221,11 +221,26 @@
       box-shadow: 0 6px 24px rgba(255, 107, 157, 0.45);
     }
 
+    /* ========== Result Card ========== */
+    .result-emoji {
+      font-size: 48px;
+      display: block;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
     /* ========== Result: Oheng Bar Chart ========== */
+    .section-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: -4px;
+      margin-bottom: 8px;
+    }
+
     .oheng-chart {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 4px;
     }
 
     .oheng-row {
@@ -272,58 +287,174 @@
       flex-shrink: 0;
     }
 
-    /* ========== Jobs list ========== */
-    .jobs-list {
-      list-style: none;
+    .oheng-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: right;
+      padding-right: 48px;
+      margin-bottom: 4px;
+    }
+
+    /* ========== Love Style ========== */
+    .love-style-box {
+      padding: 16px;
+      background: linear-gradient(135deg, #FFF5F7, #F0E8FF);
+      border-radius: var(--radius-md);
+    }
+
+    .love-style-text {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    /* ========== Ideal Partner ========== */
+    .ideal-box {
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+      background: linear-gradient(135deg, #FFF0F5, #FFE4F0);
+      border-radius: var(--radius-md);
+      align-items: flex-start;
+    }
+
+    .ideal-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .ideal-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    /* ========== Danger Signal ========== */
+    .danger-box {
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+      background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+      border-radius: var(--radius-md);
+      align-items: flex-start;
+    }
+
+    .danger-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .danger-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    /* ========== Monthly Forecast ========== */
+    .monthly-chart {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 2px;
     }
 
-    .jobs-list li {
-      font-size: 14px;
-      line-height: 1.5;
-      color: var(--text-primary);
-      padding: 10px 14px;
-      background: var(--bg-secondary);
-      border-radius: var(--radius-sm);
-      position: relative;
+    .monthly-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .jobs-list li:first-child {
-      background: linear-gradient(135deg, rgba(255,107,157,0.12), rgba(192,132,252,0.08));
-      border: 1.5px solid var(--accent-pink);
-      font-weight: 700;
+    .monthly-row.current-month {
+      /* highlighted */
     }
 
-    .jobs-list li .job-rank {
-      font-size: 12px;
+    .monthly-row.current-month .monthly-label {
+      color: var(--accent-pink);
       font-weight: 800;
-      color: var(--accent-pink);
-      margin-right: 8px;
     }
 
-    .jobs-list li:first-child .job-rank {
+    .monthly-row.current-month .monthly-score {
       color: var(--accent-pink);
+      font-weight: 800;
     }
 
-    /* Avoid jobs */
-    .avoid-jobs {
+    .monthly-label {
+      width: 36px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .monthly-bar-bg {
+      flex: 1;
+      height: 18px;
+      background: var(--border);
+      border-radius: 9px;
+      overflow: hidden;
+    }
+
+    .monthly-bar-fill {
+      height: 100%;
+      border-radius: 9px;
+      background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple));
+      transition: width 0.8s ease;
+    }
+
+    .monthly-row.current-month .monthly-bar-fill {
+      background: linear-gradient(90deg, #FF4081, #E040FB);
+    }
+
+    .monthly-score {
+      width: 32px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .monthly-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      padding-left: 44px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      margin-bottom: 4px;
+    }
+
+    .monthly-text.current-month-text {
+      color: var(--text-primary);
+      font-weight: 600;
+      background: linear-gradient(135deg, rgba(255,107,157,0.06), rgba(192,132,252,0.04));
+      padding: 8px 12px 8px 44px;
+      border-radius: var(--radius-sm);
+      border-bottom: none;
+    }
+
+    /* ========== Lucky Items ========== */
+    .lucky-items {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
     }
 
-    .avoid-tag {
-      padding: 6px 14px;
-      background: #F0F0F5;
+    .lucky-tag {
+      padding: 8px 16px;
+      background: linear-gradient(135deg, rgba(255,107,157,0.1), rgba(192,132,252,0.1));
+      border: 1px solid rgba(255,107,157,0.2);
       border-radius: var(--radius-full);
       font-size: 13px;
       font-weight: 600;
-      color: var(--text-secondary);
+      color: var(--accent-pink);
     }
 
-    /* Celebrity */
+    /* ========== Celebrity ========== */
     .celebrity-box {
       display: flex;
       align-items: center;
@@ -333,8 +464,9 @@
       border-radius: var(--radius-md);
     }
 
-    .celebrity-emoji {
-      font-size: 32px;
+    .celebrity-icon {
+      font-size: 28px;
+      color: var(--accent-pink);
     }
 
     .celebrity-info {
@@ -352,28 +484,6 @@
     .celebrity-desc {
       font-size: 12px;
       color: var(--text-secondary);
-    }
-
-    /* Year forecast */
-    .forecast-box {
-      padding: 16px;
-      background: linear-gradient(135deg, #FFF5F7, #F0E8FF);
-      border-radius: var(--radius-md);
-      text-align: center;
-    }
-
-    .forecast-year {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--accent-purple);
-      margin-bottom: 6px;
-    }
-
-    .forecast-text {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-primary);
-      line-height: 1.6;
     }
   </style>
 </head>
