@@ -652,7 +652,7 @@ body {
   font-size: 16px;
 }
 
-.kakao-btn:hover { border-color: #FEE500; }
+.native-share-btn:hover { border-color: var(--accent); }
 .twitter-btn:hover { border-color: #1DA1F2; }
 
 /* ========== Toast ========== */

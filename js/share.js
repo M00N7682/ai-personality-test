@@ -1,6 +1,6 @@
 /**
  * 공유 기능
- * - 카카오톡 (SDK)
+ * - 네이티브 공유 (Web Share API)
  * - 트위터 (Intent URL)
  * - 이미지 다운로드 (인스타용)
  * - 링크 복사
@@ -18,39 +18,30 @@ const Share = {
   },
 
   /**
-   * 카카오톡 공유
+   * 네이티브 공유 (Web Share API)
    */
-  shareKakao() {
-    // Kakao SDK가 없으면 링크 복사 fallback
-    if (typeof Kakao === 'undefined' || !Kakao.isInitialized?.()) {
-      this.copyLink();
-      showToast('카카오톡 SDK가 준비되지 않아 링크를 복사했습니다.');
-      return;
-    }
-
+  async shareNative() {
     const { typeInfo, mbtiCode, finalType } = this.resultData;
     const code = mbtiCode || finalType || '';
-    Kakao.Share.sendDefault({
-      objectType: 'feed',
-      content: {
-        title: 'AI 토론회: 나의 성격 분석',
-        description: `${typeInfo.emoji} ${code} ${typeInfo.name} - ${typeInfo.desc}`,
-        imageUrl: this.siteUrl + '/assets/og-image.png',
-        link: {
-          mobileWebUrl: this.siteUrl,
-          webUrl: this.siteUrl
+    const shareData = {
+      title: 'AI 토론회: 나의 성격 분석',
+      text: `${typeInfo.emoji} ${code} ${typeInfo.name} - ${typeInfo.desc}\n\nAI 3인방이 분석하는 내 성격, 너도 해봐!`,
+      url: this.siteUrl
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        // 사용자가 공유 취소한 경우 무시
+        if (err.name !== 'AbortError') {
+          this.copyLink();
         }
-      },
-      buttons: [
-        {
-          title: '나도 해보기',
-          link: {
-            mobileWebUrl: this.siteUrl,
-            webUrl: this.siteUrl
-          }
-        }
-      ]
-    });
+      }
+    } else {
+      // Web Share API 미지원 브라우저 → 링크 복사 fallback
+      this.copyLink();
+    }
   },
 
   /**

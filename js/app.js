@@ -17,11 +17,6 @@ const App = {
    * 앱 초기화
    */
   init() {
-    // Kakao SDK 초기화
-    if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
-      Kakao.init('cb962e3d93f14b48ecb6d1732593e02c');
-    }
-
     this._bindEvents();
     // 시작 버튼 펄스 효과
     document.getElementById('btn-start').classList.add('pulse');
@@ -85,7 +80,7 @@ const App = {
     });
 
     // 공유 버튼
-    document.getElementById('btn-share-kakao').addEventListener('click', () => Share.shareKakao());
+    document.getElementById('btn-share-native').addEventListener('click', () => Share.shareNative());
     document.getElementById('btn-share-twitter').addEventListener('click', () => Share.shareTwitter());
     document.getElementById('btn-download').addEventListener('click', () => Share.downloadImage());
     document.getElementById('btn-copy-link').addEventListener('click', () => Share.copyLink());
