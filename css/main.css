@@ -119,10 +119,11 @@
   border-color: transparent;
 }
 
-/* Card Emoji */
-.card-emoji {
-  font-size: 40px;
-  line-height: 1;
+/* Card Accent Bar */
+.card-accent {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
 }
 
 /* Card Title */
@@ -202,8 +203,8 @@
     padding: 16px 12px;
   }
 
-  .card-emoji {
-    font-size: 34px;
+  .card-accent {
+    width: 32px;
   }
 
   .card-title {

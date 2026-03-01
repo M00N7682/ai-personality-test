@@ -81,7 +81,6 @@
         '<a href="/" class="back-home">' +
           '<span class="bh-accent">\uC5F0\uC560</span><span class="bh-zip">.zip</span>' +
         '</a>' +
-        '<div class="start-emoji">' + config.emoji + '</div>' +
         '<h1 class="start-title">' + config.title + '</h1>' +
         '<p class="start-subtitle">' + config.subtitle + '</p>' +
         '<div class="start-meta">' +
@@ -158,11 +157,11 @@
         buildBracketDots() +
         '<div class="round-header">' +
           '<div class="round-badge">' +
-            '<span class="round-emoji">\uD83D\uDCA3</span> ' + roundName +
+            roundName +
           '</div>' +
           '<div class="round-counter">' + matchNum + ' / ' + matchTotal + '</div>' +
         '</div>' +
-        '<p class="vs-prompt">\uC774 \uC911 \uB354 \uC2EB\uC740 \uAC74? \uD83D\uDE28</p>' +
+        '<p class="vs-prompt">\uC774 \uC911 \uB354 \uC2EB\uC740 \uAC74?</p>' +
         '<div class="vs-container">' +
           '<div class="vs-card" data-pick="a" id="card-a">' +
             '<div class="vs-card-label">' + match.a.label + '</div>' +
@@ -261,7 +260,6 @@
 
     app.innerHTML =
       '<div class="test-screen loading-screen">' +
-        '<div class="loading-emoji">\uD83D\uDD25</div>' +
         '<p class="loading-text" style="font-size:22px; font-weight:800;">' + roundName + ' \uC9C4\uCD9C!</p>' +
         '<p class="loading-text" style="font-size:14px; margin-top:-12px;">' + matchCount + '\uAC1C\uC758 \uB300\uACB0\uC774 \uB0A8\uC558\uC5B4\uC694</p>' +
       '</div>';
@@ -280,7 +278,7 @@
 
     app.innerHTML =
       '<div class="test-screen loading-screen">' +
-        '<div class="loading-emoji">' + config.emoji + '</div>' +
+        '<div class="loading-spinner"></div>' +
         '<p class="loading-text">' + msgs[0] + '</p>' +
         '<div class="loading-bar-container"><div class="loading-bar-fill" id="lb"></div></div>' +
       '</div>';
@@ -330,7 +328,7 @@
     if (r.strengths && r.strengths.length) {
       strengthsHTML =
         '<div class="detail-section">' +
-          '<h3>\uD83D\uDCAA \uB2F9\uC2E0\uC758 \uC5F0\uC560 \uAC15\uC810</h3>' +
+          '<h3>\uB2F9\uC2E0\uC758 \uC5F0\uC560 \uAC15\uC810</h3>' +
           '<ul>' + r.strengths.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul>' +
         '</div>';
     }
@@ -340,7 +338,7 @@
     if (r.weaknesses && r.weaknesses.length) {
       weaknessesHTML =
         '<div class="detail-section">' +
-          '<h3>\u26A0\uFE0F \uC774\uAC74 \uC870\uC2EC!</h3>' +
+          '<h3>\uC774\uAC74 \uC870\uC2EC!</h3>' +
           '<ul>' + r.weaknesses.map(function (w) { return '<li>' + w + '</li>'; }).join('') + '</ul>' +
         '</div>';
     }
@@ -363,7 +361,7 @@
       if (finalistJourney.length > 0) {
         journeyHTML =
           '<div class="journey-section">' +
-            '<h3>\uD83C\uDFC6 \uD1A0\uB108\uBA3C\uD2B8 \uACBD\uB85C</h3>' +
+            '<h3>\uD1A0\uB108\uBA3C\uD2B8 \uACBD\uB85C</h3>' +
             '<div class="journey-path">' +
               finalistJourney.map(function (j) {
                 return '<div class="journey-step">' +
@@ -387,7 +385,6 @@
         '<div class="result-card" id="result-card">' +
           '<div class="result-card-inner">' +
             '<div class="result-label">\uB098\uC758 \uCD5C\uC545\uC758 \uC5F0\uC560 \uC720\uD615</div>' +
-            '<div class="result-emoji">' + r.emoji + '</div>' +
             '<h2 class="result-name">' + r.name + '</h2>' +
             '<p class="result-desc">' + r.description + '</p>' +
             '<div class="result-tags">' +
@@ -399,7 +396,7 @@
 
         '<div class="result-detail">' +
           '<div class="detail-section">' +
-            '<h3>\uD83D\uDD0D \uC0C1\uC138 \uBD84\uC11D</h3>' +
+            '<h3>\uC0C1\uC138 \uBD84\uC11D</h3>' +
             '<p>' + r.detail + '</p>' +
           '</div>' +
           strengthsHTML +
@@ -409,9 +406,9 @@
         '</div>' +
 
         '<div class="share-buttons">' +
-          '<button class="share-btn" id="btn-share">\uD83D\uDCE4 \uACF5\uC720</button>' +
-          '<button class="share-btn" id="btn-download">\uD83D\uDCF7 \uC800\uC7A5</button>' +
-          '<button class="share-btn" id="btn-copy">\uD83D\uDD17 \uB9C1\uD06C</button>' +
+          '<button class="share-btn" id="btn-share">\uACF5\uC720</button>' +
+          '<button class="share-btn" id="btn-download">\uC800\uC7A5</button>' +
+          '<button class="share-btn" id="btn-copy">\uB9C1\uD06C</button>' +
         '</div>' +
 
         '<a href="/" class="btn-home">\uB2E4\uB978 \uD14C\uC2A4\uD2B8 \uD574\uBCF4\uAE30</a>' +
@@ -431,7 +428,7 @@
         if (navigator.share) {
           navigator.share({
             title: config.title + ' - \uC5F0\uC560.zip',
-            text: '\uB098\uC758 \uCD5C\uC545\uC758 \uC5F0\uC560 \uC720\uD615: ' + r.name + ' ' + r.emoji,
+            text: '\uB098\uC758 \uCD5C\uC545\uC758 \uC5F0\uC560 \uC720\uD615: ' + r.name,
             url: location.href
           }).catch(function () { /* cancelled */ });
         } else {

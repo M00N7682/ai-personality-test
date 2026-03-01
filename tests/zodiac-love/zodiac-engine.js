@@ -109,7 +109,6 @@
         <a href="/" class="back-home">
           <span class="bh-accent">연애</span><span class="bh-zip">.zip</span>
         </a>
-        <div class="start-emoji">${config.emoji}</div>
         <h1 class="start-title">${config.title}</h1>
         <p class="start-subtitle">${config.subtitle}</p>
         <div class="start-meta">
@@ -132,7 +131,7 @@
   function renderMySign() {
     const gridHTML = signs.map(s => `
       <div class="zodiac-card" data-id="${s.id}">
-        <span class="zodiac-emoji">${s.emoji}</span>
+        <span class="zodiac-symbol">${s.symbol || ''}</span>
         <span class="zodiac-name">${s.name}</span>
         <span class="zodiac-date">${s.dates}</span>
       </div>
@@ -171,7 +170,7 @@
   function renderPartnerSign() {
     const gridHTML = signs.map(s => `
       <div class="zodiac-card" data-id="${s.id}">
-        <span class="zodiac-emoji">${s.emoji}</span>
+        <span class="zodiac-symbol">${s.symbol || ''}</span>
         <span class="zodiac-name">${s.name}</span>
         <span class="zodiac-date">${s.dates}</span>
       </div>
@@ -195,7 +194,7 @@
           ${gridHTML}
         </div>
 
-        <button class="solo-btn" id="btn-solo">나는 솔로 💔 연애운만 볼래요</button>
+        <button class="solo-btn" id="btn-solo">나는 솔로 - 연애운만 볼래요</button>
       </div>
     `;
 
@@ -218,7 +217,7 @@
 
     app.innerHTML = `
       <div class="test-screen loading-screen">
-        <div class="loading-emoji">${config.emoji}</div>
+        <div class="loading-spinner"></div>
         <p class="loading-text">${msgs[0]}</p>
         <div class="loading-bar-container"><div class="loading-bar-fill" id="lb"></div></div>
       </div>
@@ -256,7 +255,7 @@
       return `
         <div class="top-sign-card">
           <span class="top-sign-rank">${rank + 1}위</span>
-          <span class="top-sign-emoji">${ts.emoji}</span>
+          <span class="top-sign-name-accent">${ts.name}</span>
           <span class="top-sign-name">${ts.name}</span>
         </div>
       `;
@@ -291,7 +290,6 @@
 
         <div class="result-card" id="result-card">
           <div class="result-card-inner">
-            <div class="result-emoji">${s.emoji}</div>
             <h2 class="result-name">${s.name} 연애운</h2>
             <div class="love-score-wrap">
               <div class="love-score-circle">
@@ -338,9 +336,9 @@
         </div>
 
         <div class="share-buttons">
-          <button class="share-btn" id="btn-share">📤 공유</button>
-          <button class="share-btn" id="btn-download">📷 저장</button>
-          <button class="share-btn" id="btn-copy">🔗 링크</button>
+          <button class="share-btn" id="btn-share">공유</button>
+          <button class="share-btn" id="btn-download">저장</button>
+          <button class="share-btn" id="btn-copy">링크</button>
         </div>
 
         <a href="/" class="btn-home">다른 테스트 해보기</a>
@@ -374,12 +372,12 @@
           <div class="result-card-inner">
             <div class="compat-pair">
               <div class="compat-sign">
-                <span class="compat-sign-emoji">${s1.emoji}</span>
+                <span class="compat-sign-label">${s1.name}</span>
                 <span class="compat-sign-name">${s1.name}</span>
               </div>
               <span class="compat-x">&times;</span>
               <div class="compat-sign">
-                <span class="compat-sign-emoji">${s2.emoji}</span>
+                <span class="compat-sign-label">${s2.name}</span>
                 <span class="compat-sign-name">${s2.name}</span>
               </div>
             </div>
@@ -423,9 +421,9 @@
         </div>
 
         <div class="share-buttons">
-          <button class="share-btn" id="btn-share">📤 공유</button>
-          <button class="share-btn" id="btn-download">📷 저장</button>
-          <button class="share-btn" id="btn-copy">🔗 링크</button>
+          <button class="share-btn" id="btn-share">공유</button>
+          <button class="share-btn" id="btn-download">저장</button>
+          <button class="share-btn" id="btn-copy">링크</button>
         </div>
 
         <a href="/" class="btn-home">다른 테스트 해보기</a>

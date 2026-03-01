@@ -262,7 +262,7 @@ function createCardHTML(test) {
   return `
     <${tag} class="test-card${disabledClass}"${href} data-id="${test.id}">
       ${badge}
-      <div class="card-emoji">${test.emoji}</div>
+      <div class="card-accent" style="background:${test.color}"></div>
       <div class="card-title">${test.title}</div>
       <div class="card-subtitle">${test.subtitle}</div>
       <div class="card-meta">

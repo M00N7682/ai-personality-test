@@ -48,17 +48,6 @@
   padding-bottom: 40px;
 }
 
-.start-emoji {
-  font-size: 72px;
-  line-height: 1;
-  margin-bottom: 8px;
-  animation: emojiFloat 2.5s ease-in-out infinite;
-}
-
-@keyframes emojiFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
 
 .start-title {
   font-size: 28px;
@@ -200,14 +189,17 @@
   gap: 24px;
 }
 
-.loading-emoji {
-  font-size: 64px;
-  animation: loadingBounce 0.8s ease-in-out infinite alternate;
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--border);
+  border-top-color: var(--accent-pink);
+  border-radius: 50%;
+  animation: spinLoader 0.8s linear infinite;
 }
 
-@keyframes loadingBounce {
-  from { transform: scale(1) rotate(-3deg); }
-  to { transform: scale(1.1) rotate(3deg); }
+@keyframes spinLoader {
+  to { transform: rotate(360deg); }
 }
 
 .loading-text {
@@ -260,11 +252,6 @@
   gap: 8px;
 }
 
-.result-emoji {
-  font-size: 64px;
-  line-height: 1;
-  margin-bottom: 4px;
-}
 
 .result-name {
   font-size: 24px;
@@ -498,11 +485,9 @@
 
 /* ========== Responsive ========== */
 @media (max-width: 360px) {
-  .start-emoji { font-size: 56px; }
   .start-title { font-size: 24px; }
   .question-text { font-size: 18px; }
   .result-name { font-size: 22px; }
-  .result-emoji { font-size: 56px; }
 }
 
 @media (min-width: 481px) {

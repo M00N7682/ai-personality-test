@@ -87,7 +87,6 @@
         <a href="/" class="back-home">
           <span class="bh-accent">연애</span><span class="bh-zip">.zip</span>
         </a>
-        <div class="start-emoji">${config.emoji}</div>
         <h1 class="start-title">${config.title}</h1>
         <p class="start-subtitle">${config.subtitle}</p>
         <div class="start-meta">
@@ -233,7 +232,7 @@
 
     app.innerHTML = `
       <div class="test-screen loading-screen">
-        <div class="loading-emoji">${config.emoji}</div>
+        <div class="loading-spinner"></div>
         <p class="loading-text">${msgs[0]}</p>
         <div class="loading-bar-container"><div class="loading-bar-fill" id="lb"></div></div>
       </div>
@@ -296,7 +295,6 @@
 
         <div class="result-card" id="result-card">
           <div class="result-card-inner">
-            <div class="result-emoji">${r.emoji}</div>
             <h2 class="result-name">${r.name}</h2>
             <p class="result-desc">${r.description}</p>
             <div class="result-tags">${keywordsHTML}</div>
@@ -336,7 +334,7 @@
           <div class="detail-section">
             <h3>같은 사주 유명인</h3>
             <div class="celebrity-box">
-              <span class="celebrity-emoji">${r.emoji}</span>
+              <span class="celebrity-icon">★</span>
               <div class="celebrity-info">
                 <span class="celebrity-name">${r.celebrity}</span>
                 <span class="celebrity-desc">${r.celebrityDesc}</span>
@@ -346,9 +344,9 @@
         </div>
 
         <div class="share-buttons">
-          <button class="share-btn" id="btn-share">📤 공유</button>
-          <button class="share-btn" id="btn-download">📷 저장</button>
-          <button class="share-btn" id="btn-copy">🔗 링크</button>
+          <button class="share-btn" id="btn-share">공유</button>
+          <button class="share-btn" id="btn-download">저장</button>
+          <button class="share-btn" id="btn-copy">링크</button>
         </div>
 
         <a href="/" class="btn-home">다른 테스트 해보기</a>
