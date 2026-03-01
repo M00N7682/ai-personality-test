@@ -10,6 +10,7 @@ const TESTS = [
     subtitle: '연애 동물 유형 테스트',
     emoji: '🐱',
     color: '#FF6B9D',
+    thumbnail: '/assets/thumbnails/animal-type.png',
     participants: 15200,
     duration: '2분',
     isNew: false,
@@ -23,6 +24,7 @@ const TESTS = [
     subtitle: '썸남/썸녀 정병 위험도',
     emoji: '🚨',
     color: '#EF4444',
+    thumbnail: '/assets/thumbnails/jeongbyeong.png',
     participants: 13800,
     duration: '3분',
     isNew: false,
@@ -36,6 +38,7 @@ const TESTS = [
     subtitle: 'AI가 냉정하게 판정',
     emoji: '🤖',
     color: '#60A5FA',
+    thumbnail: '/assets/thumbnails/crush-or-some.png',
     participants: 11500,
     duration: '2분',
     isNew: true,
@@ -49,6 +52,7 @@ const TESTS = [
     subtitle: '토너먼트로 찾는 내 지뢰',
     emoji: '💣',
     color: '#F97316',
+    thumbnail: '/assets/thumbnails/worst-type.png',
     participants: 10200,
     duration: '2분',
     isNew: true,
@@ -62,6 +66,7 @@ const TESTS = [
     subtitle: '생년월일시로 보는 연애 운명',
     emoji: '🔮',
     color: '#8B5CF6',
+    thumbnail: '/assets/thumbnails/saju-job.png',
     participants: 9800,
     duration: '1분',
     isNew: true,
@@ -75,6 +80,7 @@ const TESTS = [
     subtitle: '올해 나의 연애 운세',
     emoji: '⭐',
     color: '#FBBF24',
+    thumbnail: '/assets/thumbnails/zodiac-love.png',
     participants: 8500,
     duration: '1분',
     isNew: false,
@@ -88,6 +94,7 @@ const TESTS = [
     subtitle: '나의 집착 레벨 측정',
     emoji: '👀',
     color: '#EC4899',
+    thumbnail: '/assets/thumbnails/obsession.png',
     participants: 7800,
     duration: '3분',
     isNew: false,
@@ -101,6 +108,7 @@ const TESTS = [
     subtitle: '내 연애가 영화라면?',
     emoji: '🎬',
     color: '#A78BFA',
+    thumbnail: '/assets/thumbnails/movie-heroine.png',
     participants: 7200,
     duration: '2분',
     isNew: false,
@@ -114,6 +122,7 @@ const TESTS = [
     subtitle: '나의 연애 온도는 몇 도?',
     emoji: '🌡️',
     color: '#FB923C',
+    thumbnail: '/assets/thumbnails/love-temp.png',
     participants: 6500,
     duration: '1분',
     isNew: false,
@@ -127,6 +136,7 @@ const TESTS = [
     subtitle: '무의식이 원하는 이상형',
     emoji: '💘',
     color: '#F472B6',
+    thumbnail: '/assets/thumbnails/attraction-type.png',
     participants: 6100,
     duration: '3분',
     isNew: false,
@@ -259,10 +269,14 @@ function createCardHTML(test) {
   const tag = test.ready ? 'a' : 'div';
   const href = test.ready ? ` href="${test.url}"` : '';
 
+  const visual = test.thumbnail
+    ? `<img class="card-thumbnail" src="${test.thumbnail}" alt="${test.title}" loading="lazy">`
+    : `<div class="card-accent" style="background:${test.color}"></div>`;
+
   return `
     <${tag} class="test-card${disabledClass}"${href} data-id="${test.id}">
       ${badge}
-      <div class="card-accent" style="background:${test.color}"></div>
+      ${visual}
       <div class="card-title">${test.title}</div>
       <div class="card-subtitle">${test.subtitle}</div>
       <div class="card-meta">

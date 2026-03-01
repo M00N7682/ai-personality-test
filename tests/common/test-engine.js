@@ -243,6 +243,7 @@
 
         <div class="result-card" id="result-card">
           <div class="result-card-inner">
+            ${r.image ? `<img class="result-image" src="${r.image}" alt="${r.name}">` : ''}
             <h2 class="result-name">${r.name}</h2>
             <p class="result-desc">${r.description}</p>
             <div class="result-tags">${r.traits.map(t => `<span class="result-tag">#${t}</span>`).join('')}</div>

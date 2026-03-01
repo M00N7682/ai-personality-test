@@ -117,7 +117,15 @@
   pointer-events: none;
 }
 
-/* Card Accent Bar */
+/* Card Thumbnail */
+.card-thumbnail {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin-bottom: 4px;
+}
+
+/* Card Accent Bar (fallback when no image) */
 .card-accent {
   width: 40px;
   height: 4px;
@@ -203,6 +211,11 @@
 
   .card-accent {
     width: 32px;
+  }
+
+  .card-thumbnail {
+    width: 52px;
+    height: 52px;
   }
 
   .card-title {
