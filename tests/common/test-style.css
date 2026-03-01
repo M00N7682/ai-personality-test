@@ -88,9 +88,11 @@
   margin-top: 16px;
 }
 
-.btn-start:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(255, 107, 157, 0.45);
+@media (hover: hover) {
+  .btn-start:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(255, 107, 157, 0.45);
+  }
 }
 
 .btn-start:active {
@@ -101,6 +103,46 @@
 .question-screen {
   justify-content: flex-start;
   padding-top: 20px;
+}
+
+.question-nav {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.btn-prev {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.btn-prev::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+
+@media (hover: hover) {
+  .btn-prev:hover {
+    color: var(--text-primary);
+  }
 }
 
 .progress-bar {
@@ -170,9 +212,11 @@
   transform: translateY(0);
 }
 
-.option-btn:hover {
-  border-color: var(--accent-pink);
-  background: #FFF0F5;
+@media (hover: hover) {
+  .option-btn:hover {
+    border-color: var(--accent-pink);
+    background: #FFF0F5;
+  }
 }
 
 .option-btn.selected {
@@ -412,9 +456,11 @@
   gap: 4px;
 }
 
-.share-btn:hover {
-  border-color: var(--accent-pink);
-  color: var(--accent-pink);
+@media (hover: hover) {
+  .share-btn:hover {
+    border-color: var(--accent-pink);
+    color: var(--accent-pink);
+  }
 }
 
 /* Home & Retry buttons */
@@ -434,9 +480,11 @@
   transition: all 0.2s;
 }
 
-.btn-home:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(255,107,157,0.4);
+@media (hover: hover) {
+  .btn-home:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(255,107,157,0.4);
+  }
 }
 
 .btn-retry {
@@ -454,9 +502,11 @@
   transition: all 0.2s;
 }
 
-.btn-retry:hover {
-  border-color: var(--text-muted);
-  color: var(--text-primary);
+@media (hover: hover) {
+  .btn-retry:hover {
+    border-color: var(--text-muted);
+    color: var(--text-primary);
+  }
 }
 
 /* Toast */

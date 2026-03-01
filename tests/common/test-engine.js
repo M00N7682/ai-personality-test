@@ -10,6 +10,7 @@
 
   let currentQ = 0;
   let scores = {};
+  let answerHistory = []; // tracks {idx, scores} for each answered question
 
   /* ========== Init ========== */
   function init() {
@@ -90,6 +91,7 @@
     document.getElementById('btn-start').addEventListener('click', () => {
       incrementCount();
       currentQ = 0;
+      answerHistory = [];
       renderQuestion();
     });
   }
@@ -98,9 +100,13 @@
   function renderQuestion() {
     const q = questions[currentQ];
     const pct = (currentQ / questions.length) * 100;
+    const prevBtn = currentQ > 0
+      ? '<button class="btn-prev" id="btn-prev">이전</button>'
+      : '';
 
     app.innerHTML = `
       <div class="test-screen question-screen">
+        <div class="question-nav">${prevBtn}</div>
         <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
         <div class="question-count">${currentQ + 1} / ${questions.length}</div>
         <h2 class="question-text">${q.question}</h2>
@@ -109,6 +115,10 @@
         </div>
       </div>
     `;
+
+    if (currentQ > 0) {
+      document.getElementById('btn-prev').addEventListener('click', goBack);
+    }
 
     setTimeout(() => {
       document.querySelectorAll('.option-btn').forEach((btn, i) => {
@@ -121,6 +131,9 @@
   function selectOption(idx) {
     const q = questions[currentQ];
     const opt = q.options[idx];
+
+    // Save to history before applying scores
+    answerHistory[currentQ] = { idx, scores: { ...opt.scores } };
 
     for (const [k, v] of Object.entries(opt.scores)) {
       scores[k] = (scores[k] || 0) + v;
@@ -138,6 +151,22 @@
         renderLoading();
       }
     }, 350);
+  }
+
+  function goBack() {
+    if (currentQ <= 0) return;
+    currentQ--;
+
+    // Undo the scores from that answer
+    const prev = answerHistory[currentQ];
+    if (prev) {
+      for (const [k, v] of Object.entries(prev.scores)) {
+        scores[k] = (scores[k] || 0) - v;
+      }
+      answerHistory.length = currentQ;
+    }
+
+    renderQuestion();
   }
 
   /* ========== Loading Screen ========== */
@@ -264,6 +293,7 @@
 
     document.getElementById('btn-retry').addEventListener('click', () => {
       currentQ = 0;
+      answerHistory = [];
       for (const k of Object.keys(scores)) scores[k] = 0;
       renderStart();
       window.scrollTo(0, 0);

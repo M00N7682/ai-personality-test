@@ -64,9 +64,11 @@
   border-color: var(--accent-pink);
 }
 
-.tab-btn:hover:not(.active) {
-  border-color: var(--accent-pink);
-  color: var(--accent-pink);
+@media (hover: hover) {
+  .tab-btn:hover:not(.active) {
+    border-color: var(--accent-pink);
+    color: var(--accent-pink);
+  }
 }
 
 /* Card Grid */
@@ -96,10 +98,12 @@
   color: inherit;
 }
 
-.test-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(255, 107, 157, 0.15);
-  border-color: var(--accent-pink);
+@media (hover: hover) {
+  .test-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(255, 107, 157, 0.15);
+    border-color: var(--accent-pink);
+  }
 }
 
 .test-card:active {
@@ -111,12 +115,6 @@
   opacity: 0.65;
   cursor: default;
   pointer-events: none;
-}
-
-.test-card.disabled:hover {
-  transform: none;
-  box-shadow: var(--shadow-card);
-  border-color: transparent;
 }
 
 /* Card Accent Bar */
