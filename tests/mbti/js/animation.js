@@ -101,7 +101,7 @@ const DebateAnimation = {
 
     div.innerHTML = `
       <div class="chat-avatar ${avatarClass}">
-        <img src="assets/${ai}-avatar.png" alt="${names[ai]}">
+        <img src="/assets/${ai}-avatar.png" alt="${names[ai]}">
       </div>
       <div class="chat-bubble">
         <p class="chat-name ${nameClass}">${names[ai]}</p>
@@ -124,7 +124,7 @@ const DebateAnimation = {
 
     div.innerHTML = `
       <div class="chat-avatar ${avatarClass}">
-        <img src="assets/${ai}-avatar.png" alt="${names[ai]}">
+        <img src="/assets/${ai}-avatar.png" alt="${names[ai]}">
       </div>
       <div class="chat-bubble">
         <p class="chat-name ${ai}-name">${names[ai]}</p>

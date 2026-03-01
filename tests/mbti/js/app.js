@@ -162,9 +162,9 @@ const App = {
 
     // 아바타 설정
     const avatarMap = {
-      chatgpt: 'assets/chatgpt-avatar.png',
-      gemini: 'assets/gemini-avatar.png',
-      claude: 'assets/claude-avatar.png'
+      chatgpt: '/assets/chatgpt-avatar.png',
+      gemini: '/assets/gemini-avatar.png',
+      claude: '/assets/claude-avatar.png'
     };
     avatar.src = avatarMap[commentData.character] || avatarMap.chatgpt;
     avatar.alt = commentData.character;

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>별자리로 연애운 진단 - 연애.zip</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta property="og:title" content="별자리로 연애운 진단 - 연애.zip">
+  <meta property="og:description" content="별자리 궁합과 올해 연애운을 확인해보세요">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/tests/common/test-style.css">
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <style>
+    /* ========== Zodiac Selection ========== */
+    .select-screen {
+      justify-content: flex-start;
+      padding-top: 60px;
+      padding-bottom: 40px;
+      gap: 20px;
+    }
+
+    .select-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-primary);
+      text-align: center;
+      letter-spacing: -0.5px;
+    }
+
+    .select-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-top: -8px;
+    }
+
+    .zodiac-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .zodiac-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 14px 8px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+
+    .zodiac-card:hover {
+      border-color: var(--accent-pink);
+      background: #FFF0F5;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 107, 157, 0.12);
+    }
+
+    .zodiac-card.selected {
+      border-color: var(--accent-pink);
+      background: linear-gradient(135deg, rgba(255,107,157,0.12), rgba(192,132,252,0.08));
+      box-shadow: 0 4px 16px rgba(255, 107, 157, 0.2);
+    }
+
+    .zodiac-emoji {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .zodiac-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .zodiac-card.selected .zodiac-name {
+      color: var(--accent-pink);
+    }
+
+    .zodiac-date {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Solo button */
+    .solo-btn {
+      width: 100%;
+      max-width: 360px;
+      padding: 14px;
+      border: 1.5px dashed var(--accent-purple);
+      border-radius: var(--radius-md);
+      background: rgba(192, 132, 252, 0.06);
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent-purple);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .solo-btn:hover {
+      background: rgba(192, 132, 252, 0.12);
+      border-color: var(--accent-pink);
+      color: var(--accent-pink);
+    }
+
+    .solo-btn.selected {
+      background: linear-gradient(135deg, rgba(255,107,157,0.12), rgba(192,132,252,0.12));
+      border-style: solid;
+      border-color: var(--accent-pink);
+      color: var(--accent-pink);
+    }
+
+    .btn-diagnose {
+      width: 100%;
+      max-width: 360px;
+      padding: 16px 32px;
+      border: none;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+      color: #fff;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 20px rgba(255, 107, 157, 0.35);
+      opacity: 0.5;
+      pointer-events: none;
+      margin-top: 8px;
+    }
+
+    .btn-diagnose.ready {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .btn-diagnose.ready:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(255, 107, 157, 0.45);
+    }
+
+    /* ========== Compatibility Score ========== */
+    .compat-score-section {
+      text-align: center;
+      padding: 28px 20px;
+    }
+
+    .compat-heart-wrap {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 16px;
+    }
+
+    .compat-heart-bg {
+      width: 120px;
+      height: 120px;
+      font-size: 100px;
+      line-height: 120px;
+      text-align: center;
+      opacity: 0.15;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .compat-heart-fill {
+      width: 120px;
+      height: 120px;
+      font-size: 100px;
+      line-height: 120px;
+      text-align: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      clip-path: inset(100% 0 0 0);
+      transition: clip-path 1.5s ease;
+    }
+
+    .compat-score-num {
+      font-size: 42px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .compat-score-label {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .compat-pair {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .compat-sign {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .compat-sign-emoji {
+      font-size: 32px;
+    }
+
+    .compat-sign-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .compat-x {
+      font-size: 20px;
+      color: var(--accent-pink);
+      font-weight: 700;
+    }
+
+    .compat-summary {
+      margin-top: 16px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    /* ========== Monthly Chart ========== */
+    .monthly-chart {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 4px;
+      align-items: end;
+      height: 100px;
+      padding: 0 4px;
+    }
+
+    .month-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      height: 100%;
+      justify-content: flex-end;
+    }
+
+    .month-bar {
+      width: 100%;
+      border-radius: 4px 4px 0 0;
+      transition: height 0.6s ease;
+      min-height: 4px;
+    }
+
+    .month-bar.high {
+      background: linear-gradient(180deg, var(--accent-pink), var(--accent-purple));
+    }
+
+    .month-bar.medium {
+      background: linear-gradient(180deg, #FFB5C8, #DEB5F5);
+    }
+
+    .month-bar.low {
+      background: var(--border);
+    }
+
+    .month-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* ========== Love score circle ========== */
+    .love-score-wrap {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .love-score-circle {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+    }
+
+    .love-score-circle svg {
+      transform: rotate(-90deg);
+      width: 120px;
+      height: 120px;
+    }
+
+    .love-score-circle .track {
+      fill: none;
+      stroke: var(--border);
+      stroke-width: 8;
+    }
+
+    .love-score-circle .fill {
+      fill: none;
+      stroke: url(#scoreGradient);
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 314;
+      stroke-dashoffset: 314;
+      transition: stroke-dashoffset 1.5s ease;
+    }
+
+    .love-score-number {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 32px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .love-score-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    /* ========== Top Signs ========== */
+    .top-signs {
+      display: flex;
+      gap: 10px;
+    }
+
+    .top-sign-card {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 8px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-secondary);
+    }
+
+    .top-sign-card:first-child {
+      background: linear-gradient(135deg, rgba(255,107,157,0.12), rgba(192,132,252,0.08));
+      border: 1px solid rgba(255,107,157,0.2);
+    }
+
+    .top-sign-rank {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--accent-pink);
+    }
+
+    .top-sign-emoji {
+      font-size: 28px;
+    }
+
+    .top-sign-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    /* Good/Bad points */
+    .points-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .points-col h4 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .points-col.good h4 { color: var(--accent-pink); }
+    .points-col.bad h4 { color: var(--text-muted); }
+
+    .points-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .points-col li {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-primary);
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .points-col.good li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 7px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-pink);
+    }
+
+    .points-col.bad li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 7px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-muted);
+    }
+
+    /* Scenario */
+    .scenario-box {
+      padding: 16px;
+      background: linear-gradient(135deg, #FFF5F7, #F0E8FF);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-primary);
+    }
+
+    /* Tips */
+    .tips-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .tips-list li {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      padding: 10px 14px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
+      position: relative;
+      padding-left: 36px;
+    }
+
+    .tips-list li .tip-num {
+      position: absolute;
+      left: 12px;
+      top: 10px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--accent-pink);
+    }
+
+    /* Destiny traits */
+    .destiny-box {
+      padding: 16px;
+      background: linear-gradient(135deg, #FFF5F7, #F0E8FF);
+      border-radius: var(--radius-md);
+    }
+
+    .destiny-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-purple);
+      margin-bottom: 8px;
+    }
+
+    .destiny-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-primary);
+    }
+
+    /* Step indicator for zodiac selection */
+    .step-bar {
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .step-dot {
+      flex: 1;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+
+    .step-dot.active {
+      background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple));
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="app"></div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="data.js"></script>
+  <script src="zodiac-engine.js"></script>
+</body>
+</html>

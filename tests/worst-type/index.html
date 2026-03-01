@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>최악의 연애 유형 - 연애.zip</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta property="og:title" content="최악의 연애 유형 - 연애.zip">
+  <meta property="og:description" content="토너먼트로 찾는 내 연애 지뢰">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="최악의 연애 유형 - 연애.zip">
+  <meta name="twitter:description" content="토너먼트로 찾는 내 연애 지뢰">
+  <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/tests/common/test-style.css">
+  <style>
+    /* ========== Tournament-specific Styles ========== */
+
+    /* Round header */
+    .round-header {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .round-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: linear-gradient(135deg, rgba(255,107,157,0.12), rgba(192,132,252,0.10));
+      border-radius: var(--radius-full);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-pink);
+    }
+
+    .round-badge .round-emoji {
+      font-size: 16px;
+    }
+
+    .round-counter {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* VS area */
+    .vs-prompt {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: 20px;
+      word-break: keep-all;
+    }
+
+    .vs-container {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .vs-card {
+      width: 100%;
+      padding: 24px 20px;
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      opacity: 0;
+      transform: translateY(12px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vs-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .vs-card:hover {
+      border-color: var(--accent-pink);
+      background: #FFF5F8;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(255,107,157,0.15);
+    }
+
+    .vs-card.visible:hover {
+      transform: translateY(-2px);
+    }
+
+    .vs-card.selected {
+      border-color: var(--accent-pink);
+      background: linear-gradient(135deg, rgba(255,107,157,0.10), rgba(192,132,252,0.08));
+    }
+
+    .vs-card.selected::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,107,157,0.05), rgba(192,132,252,0.05));
+      animation: selectPulse 0.4s ease;
+    }
+
+    @keyframes selectPulse {
+      0% { opacity: 0; transform: scale(0.8); }
+      50% { opacity: 1; }
+      100% { opacity: 0; transform: scale(1.2); }
+    }
+
+    .vs-card.eliminated {
+      opacity: 0.35;
+      transform: scale(0.95);
+      pointer-events: none;
+    }
+
+    .vs-card-label {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .vs-card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .vs-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+      color: #fff;
+      font-size: 16px;
+      font-weight: 900;
+      box-shadow: 0 4px 12px rgba(255,107,157,0.3);
+      flex-shrink: 0;
+      z-index: 1;
+      margin: -8px 0;
+    }
+
+    /* Bracket progress dots */
+    .bracket-progress {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 4px;
+      margin-bottom: 16px;
+    }
+
+    .bracket-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .bracket-dot.done {
+      background: var(--accent-pink);
+    }
+
+    .bracket-dot.current {
+      background: var(--accent-pink);
+      box-shadow: 0 0 0 3px rgba(255,107,157,0.25);
+    }
+
+    .bracket-separator {
+      width: 1px;
+      height: 14px;
+      background: var(--border);
+    }
+
+    /* Tournament screen adjustments */
+    .tournament-screen {
+      justify-content: flex-start;
+      padding-top: 20px;
+      gap: 0;
+    }
+
+    /* Result - worst type specific */
+    .result-card-inner .result-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-pink);
+      margin-bottom: 2px;
+    }
+
+    /* Finalist journey display */
+    .journey-section {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .journey-section h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent-pink);
+      margin-bottom: 12px;
+    }
+
+    .journey-path {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .journey-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .journey-step .step-round {
+      font-weight: 700;
+      color: var(--accent-pink);
+      min-width: 32px;
+    }
+
+    .journey-step .step-beat {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .journey-step .step-arrow {
+      color: var(--text-muted);
+    }
+  </style>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div id="app"></div>
+  </div>
+  <script src="data.js"></script>
+  <script src="tournament-engine.js"></script>
+</body>
+</html>
