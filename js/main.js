@@ -192,6 +192,7 @@ const TESTS = [
     subtitle: '원하는 것 ≠ 필요한 것',
     emoji: '🧩',
     color: '#34D399',
+    thumbnail: '/assets/thumbnails/needed-lover.png',
     participants: 4200,
     duration: '3분',
     isNew: false,
