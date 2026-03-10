@@ -213,6 +213,20 @@ const TESTS = [
     isHot: false,
     ready: true,
     url: '/tests/dog-type/'
+  },
+  {
+    id: 'makeup-type',
+    title: '메이크업 성격 테스트',
+    subtitle: '화장 취향이 말해주는 내 성격',
+    emoji: '💄',
+    color: '#F472B6',
+    thumbnail: '/assets/ChatGPT Image 2026년 3월 10일 오후 10_23_49.png',
+    participants: 3200,
+    duration: '2분',
+    isNew: true,
+    isHot: false,
+    ready: true,
+    url: '/tests/makeup-type/'
   }
 ];
 
